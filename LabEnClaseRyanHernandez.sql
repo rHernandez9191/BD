@@ -395,3 +395,6 @@ VALUES(
 	@codigo)
 END
 ----FIN DEL PROCESO
+
+
+Insert into
