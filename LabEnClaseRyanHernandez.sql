@@ -1,17 +1,6 @@
 USE LabEnClase1
 
-CREATE TABLE TCarrera(
-			codigo int primary key,
-			nombre varchar(50),
-			titulo varchar(50),
-			ciclo int,
-			idCurso int,
-			CONSTRAINT FK_Curso FOREIGN KEY (idCurso)
-			REFERENCES TCurso(idCurso)
-)
-ALTER TABLE TCarrera 
-ADD CONSTRAINT FK_CICLOCa FOREIGN KEY (ciclo)
-REFERENCES TCiclo(idCiclo)
+
 
 CREATE TABLE TCurso(
 			idCurso int primary key not null,
@@ -20,13 +9,23 @@ CREATE TABLE TCurso(
 			horasSemanales int
 			)
 
+CREATE TABLE TCarrera(
+			codigo int primary key,
+			nombre varchar(50),
+			titulo varchar(50),
+			ciclo int,
+			idCurso int,
+			CONSTRAINT FK_Curso FOREIGN KEY (idCurso)
+			REFERENCES TCurso(idCurso)
+			)
+
 CREATE TABLE TProfesor(
 			idProfesor int primary key,
 			nombre varchar(30),
 			cedula int not null unique,
 			telefono int,
 			email varchar(50)
-)
+			)
 
 CREATE TABLE TAlumno(
 			idAlumno int primary key,
@@ -47,7 +46,7 @@ CREATE TABLE TCiclo(
 			numero int,
 			fechaInicio date,
 			fechaFinal date
-)
+			)
 
 CREATE TABLE TGrupo(
 			idGrupo int primary key,
@@ -65,7 +64,7 @@ CREATE TABLE TGrupo(
 
 			CONSTRAINT FK_Alumno FOREIGN KEY (idAlumno)
 			REFERENCES TAlumno(idAlumno)
-)
+			)
 
 CREATE TABLE TUsuarios(
 			idusuario int primary key,
@@ -74,6 +73,12 @@ CREATE TABLE TUsuarios(
 			rol varchar(50),
 			email varchar(50)
 			)
+
+
+ALTER TABLE TCarrera 
+ADD CONSTRAINT FK_CICLOCa FOREIGN KEY (ciclo)
+REFERENCES TCiclo(idCiclo)
+
 
 CREATE TABLE CarreraXCiclo(
 			codigo int,
@@ -200,6 +205,13 @@ VALUES (19
 		,7
 		,10)
 
+INSERT INTO TProfesor
+VALUES(43
+		,'Berta Rojas'
+		,1148889654
+		,74728569
+		,'Bertarojas@gmail.com')
+
 INSERT INTO TCiclo
 VALUES (4
 		,2025
@@ -215,36 +227,28 @@ VALUES(73
 		,'BR@universidad.com')
 
 INSERT INTO TCarrera
-VALUES(21
-		,'Medicina general'
-		,'Medico especializado'
+VALUES(22
+		,'Biologia General'
+		,'Biologo natural'
 		, 4
-		,18)
+		,19)
 
 INSERT INTO TAlumno 
-VALUES(39
-		,'bernanrdo tolzon'
-		,220025858
-		,66859492
-		,'bertol@hotmail.com'
+VALUES(19
+		,'Alejandro Magno'
+		,22444085
+		,118380937
+		,'magnito@gmai.com'
 		,'2003-04-24'
-		,21
-		)
-
-INSERT INTO TProfesor
-VALUES(43
-		,'Berta Rojas'
-		,1148889654
-		,74728569
-		,'Bertarojas@gmail.com')
+		,22)
 
 INSERT INTO TGrupo
 VALUES(53
 		,'L-M 12pm - 4pm'
 		,3
-		,3
-		,13
-		,34)
+		,4
+		,19
+		,19)
 
 --read----
 
@@ -396,4 +400,12 @@ VALUES(
 END
 ----FIN DEL PROCESO
 
+---- Proceso eliminar alumno ----
+CREATE OR ALTER PROCEDURE EliminarAlumno(
+			@idAlumno INT)
+AS
+BEGIN
+			DELETE FROM TAlumno 
+			WHERE @idAlumno = idAlumno;
+END;
 
