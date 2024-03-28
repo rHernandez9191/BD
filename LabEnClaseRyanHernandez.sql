@@ -435,4 +435,24 @@ BEGIN
 			DELETE FROM TAlumno 
 			WHERE @idAlumno = idAlumno;
 END;
+----------Ejecucion eliminarAlumno----
 
+
+----Funcion
+CREATE OR ALTER FUNCTION ConsultaAlumno(
+    @ID INT
+)
+RETURNS TABLE
+AS
+RETURN
+    SELECT 
+        nombre,
+        fechaNacimiento,
+        email
+    FROM
+        TAlumno
+    WHERE
+        idAlumno = @ID;
+
+---Ejecucion ConsultarAlumno
+SELECT * FROM ConsultaAlumno(33)
