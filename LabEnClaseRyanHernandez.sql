@@ -227,9 +227,9 @@ VALUES(73
 		,'BR@universidad.com')
 
 INSERT INTO TCarrera
-VALUES(22
-		,'Biologia General'
-		,'Biologo natural'
+VALUES(33
+		,'Fisica'
+		,'Bachillerato en Fisica'
 		, 4
 		,19)
 
@@ -400,7 +400,7 @@ VALUES(
 END
 ----FIN DEL PROCESO
 -----Ejecucion
-EXEC InsertarAlumno 33,'Eduardo', 222565652, 24451212, 'eded@hotmail.com','1992-10-09', 21
+EXEC InsertarAlumno 33,'Eduardo', 222565652, 24451212, 'eded@hotmail.com','1992-10-09', 33
 
 -----Proceso UpdateAlumno---
 CREATE OR ALTER PROCEDURE ModificarAlumno(
@@ -425,7 +425,7 @@ BEGIN
 END
 ----FIN DEL PROCESO---
 -------Ejecucion-----
-EXEC ModificarAlumno 33,'Eduardo Flores',222248956,65689325,'edflores@yahoo.com','1992-10-09',21
+EXEC ModificarAlumno 33,'Eduardo Flores',222248956,65689325,'edflores@yahoo.com','1992-10-09',33
 
 ---- Proceso eliminar alumno ----
 CREATE OR ALTER PROCEDURE EliminarAlumno(
@@ -436,9 +436,9 @@ BEGIN
 			WHERE @idAlumno = idAlumno;
 END;
 ----------Ejecucion eliminarAlumno----
+EXEC EliminarAlumno 33
 
-
-----Funcion
+----Funcion consultar alumno ----
 CREATE OR ALTER FUNCTION ConsultaAlumno(
     @ID INT
 )
@@ -456,3 +456,14 @@ RETURN
 
 ---Ejecucion ConsultarAlumno
 SELECT * FROM ConsultaAlumno(33)
+
+---- Funcion consultar tabla de alumnos ----
+CREATE OR ALTER PROCEDURE ConsultarListaAlumnos
+AS
+BEGIN
+	SELECT * FROM TAlumno;
+END;
+
+----Ejecucion ConsultarListaAlumnos ----
+
+EXEC ConsultarListaAlumnos;
