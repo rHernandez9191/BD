@@ -399,6 +399,33 @@ VALUES(
 	@codigo)
 END
 ----FIN DEL PROCESO
+-----Ejecucion
+EXEC InsertarAlumno 33,'Eduardo', 222565652, 24451212, 'eded@hotmail.com','1992-10-09', 21
+
+-----Proceso UpdateAlumno---
+CREATE OR ALTER PROCEDURE ModificarAlumno(
+			@idAlumno INT, 
+			@nombre VARCHAR(45),
+			@cedula INT,
+			@telefono INT,
+			@email VARCHAR(45),
+			@fechaNacimiento DATE,
+			@codigo INT)
+AS
+BEGIN
+	UPDATE TAlumno SET
+			TAlumno.idAlumno = @idAlumno,
+			TAlumno.nombre = @nombre,
+			TAlumno.cedula = @cedula,
+			TAlumno.telefono = @telefono,
+			TAlumno.email = @email,
+			TAlumno.fechaNacimiento = @fechaNacimiento,
+			TAlumno.codigo = @codigo
+	WHERE TAlumno.idAlumno = @idAlumno
+END
+----FIN DEL PROCESO---
+-------Ejecucion-----
+EXEC ModificarAlumno 33,'Eduardo Flores',222248956,65689325,'edflores@yahoo.com','1992-10-09',21
 
 ---- Proceso eliminar alumno ----
 CREATE OR ALTER PROCEDURE EliminarAlumno(
