@@ -1,5 +1,13 @@
 USE ProyectoGym
 
+CREATE TABLE TPersona(
+			idPersona int not null PRIMARY KEY,
+			nombre varchar(45),
+			cedula int,
+			fechaNacimiento DATE,
+			email varchar(45),
+			telefono int)
+
 CREATE TABLE TGymnasio (
 			idGymnasio int not null PRIMARY KEY,
 			marca varchar(45) not null,
@@ -28,14 +36,13 @@ CREATE TABLE TPagos(
 
 CREATE TABLE TInstructor(
 			idInstructor int not null PRIMARY KEY,
-			cedula int not null,
-			nomInstructor varchar(45),
-			celular int,
-			email varchar(45),
-			fechaNacimiento date,
+			idPersona int,
 			idPago int,
 			idSede int
 			
+			CONSTRAINT FK_PERSONA FOREIGN  KEY (idPersona)
+			REFERENCES TPersona (idPersona),
+
 			CONSTRAINT FK_Pago FOREIGN KEY (idPago)
 			REFERENCES TPagos(idPago),
 
@@ -54,12 +61,11 @@ CREATE TABLE TCertificaciones(
 
 CREATE TABLE TUAdministrativo(
 			idUsuario int not null PRIMARY KEY,
-			cedula int,
-			nombreUser varchar(45),
-			telefono int,
-			email varchar(45),
-			fechaNacimiento date,
+			idPersona int not null,
 			idPago int not null
+
+			CONSTRAINT FK_PersonaAdmin FOREIGN  KEY (idPersona)
+			REFERENCES TPersona (idPersona),
 
 			CONSTRAINT FK_PagoAmin FOREIGN KEY (idPago)
 			REFERENCES TPagos(idPago)
@@ -76,22 +82,33 @@ CREATE TABLE TMediciones(
 
 CREATE TABLE TCliente(
 			idCliente int not null PRIMARY KEY,
-			cedula int,
-			nombreCliente varchar(45),
-			telefono int,
-			email varchar(45),
-			FNacimiento date,
+			idPersona int not null,
 			estatura float,
 			sexo varchar(1),
 			altoRiesgo varchar(2),
-			idMedicion int not null,
 			idInstructor int not null,
 
-			CONSTRAINT FK_Medicion FOREIGN KEY (idMedicion)
-			REFERENCES TMediciones(idMedicion),
+			CONSTRAINT FK_PersonaCliente FOREIGN  KEY (idPersona)
+			REFERENCES TPersona (idPersona),
 
 			CONSTRAINT FK_InstructorCli FOREIGN KEY (idInstructor)
 			REFERENCES TInstructor(idInstructor)
+			)
+
+CREATE TABLE TExpediente(
+			idExpediente int PRIMARY KEY,
+			idCliente int not null,
+			idMedicion int,
+			idRutina int 
+
+			CONSTRAINT FK_ExpedienteRutina FOREIGN KEY (idRutina)
+			REFERENCES TRutina (idRutina),
+
+			CONSTRAINT FK_ExpedienteCli FOREIGN KEY (idCliente)
+			REFERENCES TCliente(idCliente),
+			
+			CONSTRAINT FK_ExpedienteMedi FOREIGN KEY (idMedicion)
+			REFERENCES TMediciones(idMedicion)
 			)
 
 ----- INTERMEDIAS
@@ -177,4 +194,40 @@ CREATE TABLE ClienteXInstructor(
 
 			CONSTRAINT ClienteXInstructorInsructor FOREIGN KEY (idInstructor)
 			REFERENCES TInstructor(idInstructor)
+			)
+
+CREATE TABLE PersonaXInstructor(
+			idPersona int not null,
+			idInstructor int not null
+			CONSTRAINT PersonaXInstructorIP PRIMARY KEY (idPersona, idInstructor),
+			
+			CONSTRAINT PersonaXInstructorP FOREIGN KEY(idPersona)
+			REFERENCES TPersona (idPersona),
+
+			CONSTRAINT PersonaXInstructorI FOREIGN KEY (idInstructor)
+			REFERENCES TInstructor(idInstructor)
+			)
+
+CREATE TABLE PersonaXUAdmin(
+			idPersona int not null,
+			idUsuario int not null
+			CONSTRAINT PersonaXAdmin PRIMARY KEY (idPersona, idUsuario),
+			
+			CONSTRAINT PersonaXAdminP FOREIGN KEY(idPersona)
+			REFERENCES TPersona (idPersona),
+
+			CONSTRAINT PersonaXAdminUA FOREIGN KEY (idUsuario)
+			REFERENCES TUAdministrativo(idUsuario)
+			)
+
+CREATE TABLE PersonaXCliente(
+			idPersona int not null,
+			idCliente int not null
+			CONSTRAINT PersonaXClientePC PRIMARY KEY (idPersona, idCliente),
+			
+			CONSTRAINT PersonaXClienteP FOREIGN KEY(idPersona)
+			REFERENCES TPersona (idPersona),
+
+			CONSTRAINT PersonaXClienteC FOREIGN KEY (idCliente)
+			REFERENCES TCliente(idCliente)
 			)
