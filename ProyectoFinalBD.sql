@@ -95,6 +95,12 @@ CREATE TABLE TCliente(
 			REFERENCES TInstructor(idInstructor)
 			)
 
+CREATE TABLE TRutina(
+			idRutina int PRIMARY KEY,
+			ejercicion varchar(45),
+			repeticiones int
+			)
+
 CREATE TABLE TExpediente(
 			idExpediente int PRIMARY KEY,
 			idCliente int not null,
@@ -112,6 +118,43 @@ CREATE TABLE TExpediente(
 			)
 
 ----- INTERMEDIAS
+CREATE TABLE ExpedienteXCliente(
+			idExpediente int,
+			idCliente int
+			CONSTRAINT ExpedienteXCliente PRIMARY KEY(idExpediente, idCliente),
+
+			CONSTRAINT ExpeXcliente FOREIGN KEY (idExpediente)
+			REFERENCES TExpediente(idExpediente),
+
+			CONSTRAINT ClienteExpe FOREIGN KEY (idCliente)
+			REFERENCES TCliente (idCliente)
+			)
+
+CREATE TABLE ExpedienteXMedicion(
+			idExpediente int,
+			idMedicion int
+			CONSTRAINT ExpedienteXMedicion PRIMARY KEY(idExpediente, idMedicion),
+
+			CONSTRAINT ExpeMedicion FOREIGN KEY (idExpediente)
+			REFERENCES TExpediente(idExpediente),
+
+			CONSTRAINT MedicionExpe FOREIGN KEY (idMedicion)
+			REFERENCES TMediciones (idMedicion)
+			)
+
+CREATE TABLE ExpedienteXRutina(
+			idExpediente int,
+			idRutina int
+			CONSTRAINT ExpedienteXRutina PRIMARY KEY(idExpediente, idRutina),
+
+			CONSTRAINT ExpeRutina FOREIGN KEY (idExpediente)
+			REFERENCES TExpediente(idExpediente),
+
+			CONSTRAINT RutinaExpe FOREIGN KEY (idRutina)
+			REFERENCES TRutina (idRutina)
+			)
+
+
 CREATE TABLE SedeXGymnasio(
 			idSede int not null,
 			idGymnasio int not null
