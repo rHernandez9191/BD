@@ -205,7 +205,7 @@ VALUES(53
 		,19
 		,19)
 
---read----
+----read---
 
 SELECT *FROM TAlumno
 
@@ -363,6 +363,9 @@ VALUES(
 )
 END
 EXEC InsertarCarrera 31, 'Desarrollo de software', 'Ingeniero de software', 61
+
+
+---------PROCESO INSERTAR CURSO---------
 
 
 ---- Proceso insertar usuario ------
