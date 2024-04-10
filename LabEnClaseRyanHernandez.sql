@@ -1,43 +1,24 @@
+CREATE DATABASE LabEnClase1
+
 USE LabEnClase1
 
 
+CREATE TABLE TCarrera(
+			idCarrera int primary key,
+			nombre varchar(50),
+			titulo varchar(50),
+			ciclo int,			
+			)
 
 CREATE TABLE TCurso(
 			idCurso int primary key not null,
 			nombre varchar(50),
 			creditos int,
-			horasSemanales int
-			)
+			horasSemanales int,
+			idCarrera int not null
 
-CREATE TABLE TCarrera(
-			codigo int primary key,
-			nombre varchar(50),
-			titulo varchar(50),
-			ciclo int,
-			idCurso int,
-			CONSTRAINT FK_Curso FOREIGN KEY (idCurso)
-			REFERENCES TCurso(idCurso)
-			)
-
-CREATE TABLE TProfesor(
-			idProfesor int primary key,
-			nombre varchar(30),
-			cedula int not null unique,
-			telefono int,
-			email varchar(50)
-			)
-
-CREATE TABLE TAlumno(
-			idAlumno int primary key,
-			nombre varchar(50),
-			cedula int not null unique,
-			telefono int,
-			email varchar(50),
-			fechaNacimiento date,
-			codigo int not null,
-
-			CONSTRAINT FK_Carrera FOREIGN KEY (codigo)
-			REFERENCES TCarrera(codigo)
+			CONSTRAINT FK_Carrera FOREIGN KEY (idCarrera)
+			REFERENCES TCarrera(idCarrera)
 			)
 
 CREATE TABLE TCiclo(
@@ -54,16 +35,12 @@ CREATE TABLE TGrupo(
 			numero int,
 			idCiclo int,
 			idCurso int,
-			idAlumno int,
 
 			CONSTRAINT FK_Ciclo FOREIGN KEY (idCiclo)
 			REFERENCES TCiclo(idCiclo),
 			
 			CONSTRAINT FK_CursoG FOREIGN KEY (idCurso)
 			REFERENCES TCurso(idCurso),
-
-			CONSTRAINT FK_Alumno FOREIGN KEY (idAlumno)
-			REFERENCES TAlumno(idAlumno)
 			)
 
 CREATE TABLE TUsuarios(
@@ -71,130 +48,138 @@ CREATE TABLE TUsuarios(
 			nombre varchar(30),
 			cedula int,
 			rol varchar(50),
-			email varchar(50)
+			email varchar(50),
+			fechaNacimiento DATE
+			)
+
+CREATE TABLE TAlumno(
+			idAlumno int primary key,
+			idCarrera int not null,
+			idGrupo int not null
+
+			CONSTRAINT FK_Carrera FOREIGN KEY (idCarrera)
+			REFERENCES TCarrera(idCarrera),
+
+			
+			CONSTRAINT FK_Alumno FOREIGN KEY (idGrupo)
+			REFERENCES TGrupo(idGrupo)
+			)
+
+CREATE TABLE TProfesor(
+			idProfesor int primary key,
+			idUsuario int not null
+
+			CONSTRAINT FK_PROFEUSUARIO FOREIGN KEY (idUsuario)
+			REFERENCES TUsuarios(idUsuario)
 			)
 
 
-ALTER TABLE TCarrera 
-ADD CONSTRAINT FK_CICLOCa FOREIGN KEY (ciclo)
-REFERENCES TCiclo(idCiclo)
-
+-----------INTERMEDIAS------------
 
 CREATE TABLE CarreraXCiclo(
-			codigo int,
+			idCarrera int,
 			idCiclo int,
-			CONSTRAINT PK_CarreraXCiclo PRIMARY KEY (codigo,idCiclo))
+			CONSTRAINT PK_CarreraXCiclo PRIMARY KEY (idCarrera,idCiclo),
+			
+			CONSTRAINT FK_CarreraXCicloCa FOREIGN KEY (idCarrera)
+			REFERENCES TCarrera (idCarrera),
+
+			CONSTRAINT FK_CarreraXCicloCi FOREIGN KEY (idCiclo)
+			REFERENCES TCiclo (idCiclo)
+			)
 
 CREATE TABLE EstudianteXCarrera(
 			idAlumno int,
-			codigo int,
-			CONSTRAINT PK_EstudianteXCarrera PRIMARY KEY (idAlumno,codigo)
+			idCarrera int not null,
+			CONSTRAINT PK_EstudianteXCarrera PRIMARY KEY (idAlumno, idCarrera),
+
+			CONSTRAINT FK_EstudianteXCarreraE FOREIGN KEY (idAlumno)
+			REFERENCES TAlumno (idAlumno),
+
+			CONSTRAINT FK_EstudianteXCarreraC FOREIGN KEY (idCarrera)
+			REFERENCES TCarrera (idCarrera)
 			)
 
 CREATE TABLE CarreraXCurso(
-			codigo int,
-			idCurso int,
-			CONSTRAINT PK_CarreraXCurso PRIMARY KEY (codigo,idCurso))
+			idCarrera int not null,
+			idCurso int not null,
+			CONSTRAINT PK_CarreraXCurso PRIMARY KEY (idCarrera,idCurso),
+			
+			CONSTRAINT FK_CarreraXCursoCa FOREIGN KEY (idCarrera)
+			REFERENCES TCarrera (idCarrera),
+
+			CONSTRAINT FK_CarreraXCursoCu FOREIGN KEY (idCurso)
+			REFERENCES TCurso (idCurso)
+			)
 
 CREATE TABLE GrupoXAlumnos(
 			idGrupo int,
 			idAlumno int,
-			CONSTRAINT PK_GrupoXAlumnoAl PRIMARY KEY (idGrupo,idAlumno))
+			CONSTRAINT PK_GrupoXAlumnoAl PRIMARY KEY (idGrupo,idAlumno),
+			
+			CONSTRAINT FK_GrupoXAlumnosG FOREIGN KEY (idGrupo)
+			REFERENCES TGrupo (idGrupo),
+
+			CONSTRAINT FK_GrupoXAlumnosA FOREIGN KEY (idAlumno)
+			REFERENCES TAlumno (idAlumno)
+			)
 
 CREATE TABLE GrupoXCurso(
 			idGrupo int,
 			idCurso int,
-			CONSTRAINT PK_GrupoXCursoCu PRIMARY KEY (idGrupo,idCurso))
+			CONSTRAINT PK_GrupoXCursoCu PRIMARY KEY (idGrupo,idCurso),
+			
+			CONSTRAINT FK_GrupoXCursoGru FOREIGN KEY (idGrupo)
+			REFERENCES TGrupo (idGrupo),
+
+			CONSTRAINT FK_GrupoXCursoC FOREIGN KEY (idCurso)
+			REFERENCES TCurso (idCurso)
+			)
 
 CREATE TABLE GrupoXCiclo(
 			idGrupo int,
 			idCiclo int,
-			CONSTRAINT PK_GrupoXAlumnoCi PRIMARY KEY (idGrupo,idCiclo))
+			CONSTRAINT PK_GrupoXAlumnoCi PRIMARY KEY (idGrupo,idCiclo),
+			
+			CONSTRAINT FK_GrupoXCicloGr FOREIGN KEY (idGrupo)
+			REFERENCES TGrupo (idGrupo),
 
-ALTER TABLE EstudianteXCarrera
-ADD CONSTRAINT FK_EstudianteXCarreraE FOREIGN KEY (idAlumno)
-REFERENCES TAlumno (idAlumno);
-
-ALTER TABLE EstudianteXCarrera
-ADD CONSTRAINT FK_EstudianteXCarreraC FOREIGN KEY (codigo)
-REFERENCES TCarrera (codigo);
------
-ALTER TABLE CarreraXCiclo
-ADD CONSTRAINT FK_CarreraXCicloCa FOREIGN KEY (codigo)
-REFERENCES TCarrera (codigo);
-
-ALTER TABLE CarreraXCiclo
-ADD CONSTRAINT FK_CarreraXCicloCi FOREIGN KEY (idCiclo)
-REFERENCES TCiclo (idCiclo);
------
-ALTER TABLE CarreraXCurso
-ADD CONSTRAINT FK_CarreraXCursoCa FOREIGN KEY (codigo)
-REFERENCES TCarrera (codigo);
-
-ALTER TABLE CarreraXCurso
-ADD CONSTRAINT FK_CarreraXCursoCu FOREIGN KEY (idCurso)
-REFERENCES TCurso (idCurso);
-----
-ALTER TABLE GrupoXAlumnos
-ADD CONSTRAINT FK_GrupoXAlumnosG FOREIGN KEY (idGrupo)
-REFERENCES TGrupo (idGrupo);
-
-ALTER TABLE GrupoXAlumnos
-ADD CONSTRAINT FK_GrupoXAlumnosA FOREIGN KEY (idAlumno)
-REFERENCES TAlumno (idAlumno);
--------
-ALTER TABLE GrupoXCurso
-ADD CONSTRAINT FK_GrupoXCursoGru FOREIGN KEY (idGrupo)
-REFERENCES TGrupo (idGrupo);
-
-ALTER TABLE GrupoXCurso
-ADD CONSTRAINT FK_GrupoXCursoC FOREIGN KEY (idCurso)
-REFERENCES TCurso (idCurso);
---------
-ALTER TABLE GrupoXCiclo
-ADD CONSTRAINT FK_GrupoXCicloGr FOREIGN KEY (idGrupo)
-REFERENCES TGrupo (idGrupo);
-
-ALTER TABLE GrupoXCiclo
-ADD CONSTRAINT FK_GrupoXCicloCic FOREIGN KEY (idCiclo)
-REFERENCES TCiclo (idCiclo);
-
+			CONSTRAINT FK_GrupoXCicloCic FOREIGN KEY (idCiclo)
+			REFERENCES TCiclo (idCiclo)
+			)
 ----Consultas----
 
 SELECT * FROM TCurso WHERE nombre = 'Fundamentos de bases de datos'
 
-SELECT * FROM TCurso WHERE codigo = 3456 
+SELECT * FROM TCurso WHERE idCarrera = 3456 
 
 SELECT * FROM TCarrera WHERE nombre = 'desarrollo de software'
 
-SELECT * FROM TCarrera WHERE codigo = 5533
+SELECT * FROM TCarrera WHERE idCarrera = 5533
 
-SELECT * FROM TProfesor WHERE cedula = 1156654212
+SELECT * FROM TProfesor WHERE idProfesor = 1156654212
 
-SELECT * FROM TProfesor WHERE nombre = 'Juliana'
+SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
 
-SELECT * FROM TAlumno WHERE nombre = 'Ryan'
+SELECT * FROM TAlumno WHERE idAlumno = 20
 
-SELECT * FROM TAlumno WHERE cedula = 22658974
+SELECT * FROM TUsuarios WHERE cedula = 22658974
 
 SELECT * FROM TCiclo WHERE año = 2024
 
-SELECT nombre , titulo, carrera FROM TAlumno
-INNER JOIN TCarrera ON TAlumno.codigo = TCarrera.codigo
+SELECT nombre , titulo FROM TAlumno
+INNER JOIN TCarrera ON TAlumno.idCarrera = TCarrera.idCarrera
+
+SELECT * FROM TCurso
+INNER JOIN TCarrera ON TCurso.idCurso = TCarrera.idCarrera
 
 SELECT * FROM TCarrera
-INNER JOIN TCurso ON TCarrera.idCurso = TCurso.idCurso
+INNER JOIN TCurso ON TCarrera.idCarrera = TCurso.idCurso
 
-SELECT carrera, curso FROM TCarrera
-INNER JOIN TCurso ON TCarrera.idCurso = TCurso.idCurso
-
-SELECT carrera, curso, ciclo FROM TCarrera
-INNER JOIN TCurso ON TCarrera.idCurso = TCurso.idCurso
-
-SELECT numGrupo, horario, curso FROM TGrupo
+SELECT numero, horario FROM TGrupo
 INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
 
-SELECT numGrupo, horario, idCiclo FROM TGrupo
+SELECT numero, horario, idCiclo FROM TGrupo
 INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
 
 --Insert-----
@@ -268,11 +253,11 @@ SELECT *FROM TUsuarios
 
 --Update---
 
-UPDATE TAlumno
+UPDATE TUsuarios
 SET cedula = 1313131415
 WHERE nombre = 'jenifer'
 
-UPDATE TProfesor
+UPDATE TUsuarios
 SET cedula = 3366582
 WHERE nombre = 'juan'
 
@@ -298,10 +283,10 @@ WHERE nombre = 'Antonio'
 
 -- Delete----
 
-DELETE FROM TAlumno 
+DELETE FROM TUsuarios 
 WHERE nombre = 'Yulian'
 
-DELETE FROM TProfesor
+DELETE FROM TUsuarios
       WHERE nombre ='Juan'
 
 DELETE FROM TCiclo
@@ -329,9 +314,9 @@ SELECT * FROM TodosAlumnos
 
 CREATE OR ALTER VIEW [AlumnosYProfesores] with encryption 
 AS
-SELECT nombre FROM TAlumno 
+SELECT * FROM TAlumno 
 UNION
-SELECT nomProfesor FROM TProfesor
+SELECT * FROM TProfesor
 
 SELECT * FROM AlumnosYProfesores
 
