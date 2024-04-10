@@ -2,12 +2,22 @@ CREATE DATABASE LabEnClase1
 
 USE LabEnClase1
 
+CREATE TABLE TCiclo(
+			idCiclo int primary key,
+			año int,
+			numero int,
+			fechaInicio date,
+			fechaFinal date
+			)
 
 CREATE TABLE TCarrera(
 			idCarrera int primary key,
 			nombre varchar(50),
 			titulo varchar(50),
-			ciclo int,			
+			ciclo int,	
+			
+			CONSTRAINT FK_CIC FOREIGN KEY (ciclo)
+			REFERENCES TCiclo (idCiclo)
 			)
 
 CREATE TABLE TCurso(
@@ -21,13 +31,6 @@ CREATE TABLE TCurso(
 			REFERENCES TCarrera(idCarrera)
 			)
 
-CREATE TABLE TCiclo(
-			idCiclo int primary key,
-			año int,
-			numero int,
-			fechaInicio date,
-			fechaFinal date
-			)
 
 CREATE TABLE TGrupo(
 			idGrupo int primary key,
@@ -49,7 +52,8 @@ CREATE TABLE TUsuarios(
 			cedula int,
 			rol varchar(50),
 			email varchar(50),
-			fechaNacimiento DATE
+			fechaNacimiento DATE,
+			telefono int
 			)
 
 CREATE TABLE TAlumno(
@@ -57,7 +61,7 @@ CREATE TABLE TAlumno(
 			idCarrera int not null,
 			idGrupo int not null
 
-			CONSTRAINT FK_Carrera FOREIGN KEY (idCarrera)
+			CONSTRAINT FK_CarreraAlumno FOREIGN KEY (idCarrera)
 			REFERENCES TCarrera(idCarrera),
 
 			
@@ -147,40 +151,6 @@ CREATE TABLE GrupoXCiclo(
 			CONSTRAINT FK_GrupoXCicloCic FOREIGN KEY (idCiclo)
 			REFERENCES TCiclo (idCiclo)
 			)
-----Consultas----
-
-SELECT * FROM TCurso WHERE nombre = 'Fundamentos de bases de datos'
-
-SELECT * FROM TCurso WHERE idCarrera = 3456 
-
-SELECT * FROM TCarrera WHERE nombre = 'desarrollo de software'
-
-SELECT * FROM TCarrera WHERE idCarrera = 5533
-
-SELECT * FROM TProfesor WHERE idProfesor = 1156654212
-
-SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
-
-SELECT * FROM TAlumno WHERE idAlumno = 20
-
-SELECT * FROM TUsuarios WHERE cedula = 22658974
-
-SELECT * FROM TCiclo WHERE año = 2024
-
-SELECT nombre , titulo FROM TAlumno
-INNER JOIN TCarrera ON TAlumno.idCarrera = TCarrera.idCarrera
-
-SELECT * FROM TCurso
-INNER JOIN TCarrera ON TCurso.idCurso = TCarrera.idCarrera
-
-SELECT * FROM TCarrera
-INNER JOIN TCurso ON TCarrera.idCarrera = TCurso.idCurso
-
-SELECT numero, horario FROM TGrupo
-INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
-
-SELECT numero, horario, idCiclo FROM TGrupo
-INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
 
 --Insert-----
 
@@ -304,88 +274,128 @@ DELETE FROM TCarrera
 DELETE FROM TUsuarios
       WHERE nombre = 'Antonio'
 
--------Vistas------
 
-CREATE OR ALTER VIEW [TodosAlumnos] with encryption 
+----Consultas----
+
+SELECT * FROM TCurso WHERE nombre = 'Fundamentos de bases de datos'
+
+SELECT * FROM TCurso WHERE idCarrera = 3456 
+
+SELECT * FROM TCarrera WHERE nombre = 'desarrollo de software'
+
+SELECT * FROM TCarrera WHERE idCarrera = 5533
+
+SELECT * FROM TProfesor WHERE idProfesor = 1156654212
+
+SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
+
+SELECT * FROM TAlumno WHERE idAlumno = 20
+
+SELECT * FROM TUsuarios WHERE cedula = 22658974
+
+SELECT * FROM TCiclo WHERE año = 2024
+----------------------------------------------------
+
+SELECT nombre , titulo FROM TAlumno
+INNER JOIN TCarrera ON TAlumno.idCarrera = TCarrera.idCarrera
+
+SELECT * FROM TCurso
+INNER JOIN TCarrera ON TCurso.idCurso = TCarrera.idCarrera
+
+SELECT * FROM TCarrera
+INNER JOIN TCurso ON TCarrera.idCarrera = TCurso.idCurso
+
+SELECT numero, horario FROM TGrupo
+INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
+
+SELECT numero, horario, idCiclo FROM TGrupo
+INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
+
+-----------Procesos------------
+
+------Proceso InsertarCiclo
+CREATE OR ALTER PROCEDURE InsertarCiclo(
+			@idCiclo int ,
+			@año int,
+			@numero int,
+			@fechaInicio DATE,
+			@FechaFinal DATE
+			)
 AS
-SELECT * FROM TAlumno
-
-SELECT * FROM TodosAlumnos
-
-CREATE OR ALTER VIEW [AlumnosYProfesores] with encryption 
-AS
-SELECT * FROM TAlumno 
-UNION
-SELECT * FROM TProfesor
-
-SELECT * FROM AlumnosYProfesores
-
-CREATE OR ALTER VIEW [CarreraYCursos] with encryption 
-AS
-SELECT carrera, curso FROM TCarrera
-INNER JOIN TCurso ON TCarrera.idCurso = TCurso.idCurso
-
-SELECT * FROM CarreraYCursos
-
+BEGIN
+	INSERT INTO TCiclo(
+				idCiclo,
+				año,
+				numero,
+				fechaInicio,
+				fechaFinal
+				)
+VALUES(	
+	@idCiclo, 
+	@año, 
+	@numero,
+	@fechaInicio,
+	@fechaFinal
+)
+END
+EXEC InsertarCiclo 66,2025, 3, '2025-08-11', '2025-12-11'
 
 ------Proceso InsertarCarrera
 CREATE OR ALTER PROCEDURE InsertarCarrera(
-			@codigo int ,
+			@idCarrera int ,
 			@nombre varchar(50),
 			@titulo varchar(50),
-			@ciclo int,
-			@idCurso int)
+			@ciclo int
+			)
 AS
 BEGIN
-	INSERT INTO TAlumno(
-				idAlumno,
+	INSERT INTO TCarrera(
+				idCarrera,
 				nombre,
-				cedula,
-				telefono,
-				email,
-				fechaNacimiento,
-				codigo)
+				titulo,
+				ciclo
+				)
 VALUES(	
-	@idAlumno, 
+	@idCarrera, 
 	@nombre, 
-	@cedula,
-	@telefono,
-	@email,
-	@fechaNacimiento,
-	@codigo)
+	@titulo,
+	@ciclo
+)
 END
+EXEC InsertarCarrera 31, 'Desarrollo de software', 'Ingeniero de software', 61
 
----- Proceso insertar Alumno ------
-CREATE OR ALTER PROCEDURE InsertarAlumno(
-			@idAlumno int ,
+
+---- Proceso insertar usuario ------
+CREATE OR ALTER PROCEDURE InsertarUsuario(
+			@idUsuario int,
 			@nombre varchar(50),
 			@cedula int,
 			@telefono int,
 			@email varchar(50),
-			@fechaNacimiento date,
-			@codigo int )
+			@fechaNacimiento date
+			 )
 AS
 BEGIN
-	INSERT INTO TAlumno(
-				idAlumno,
+	INSERT INTO TUsuarios(
+				idusuario,
 				nombre,
 				cedula,
 				telefono,
 				email,
-				fechaNacimiento,
-				codigo)
-VALUES(	
-	@idAlumno, 
+				fechaNacimiento
+				)
+VALUES(	 
+	@idUsuario,
 	@nombre, 
 	@cedula,
 	@telefono,
 	@email,
-	@fechaNacimiento,
-	@codigo)
+	@fechaNacimiento
+	)
 END
 ----FIN DEL PROCESO
 -----Ejecucion
-EXEC InsertarAlumno 33,'Eduardo', 222565652, 24451212, 'eded@hotmail.com','1992-10-09', 33
+EXEC InsertarUsuario 3,'Carlos', 20058906, 68689272, 'Carl@yahoo.com','1995-11-10'
 
 -----Proceso UpdateAlumno---
 CREATE OR ALTER PROCEDURE ModificarAlumno(
