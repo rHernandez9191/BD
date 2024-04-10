@@ -1,4 +1,6 @@
-USE ProyectoGym
+CREATE DATABASE ProyectoGymnasio
+
+USE ProyectoGymnasio
 
 CREATE TABLE TPersona(
 			idPersona int not null PRIMARY KEY,
@@ -121,7 +123,7 @@ CREATE TABLE TExpediente(
 CREATE TABLE ExpedienteXCliente(
 			idExpediente int,
 			idCliente int
-			CONSTRAINT ExpedienteXCliente PRIMARY KEY(idExpediente, idCliente),
+			CONSTRAINT PK_ExpedienteXCliente PRIMARY KEY(idExpediente, idCliente),
 
 			CONSTRAINT ExpeXcliente FOREIGN KEY (idExpediente)
 			REFERENCES TExpediente(idExpediente),
@@ -133,7 +135,7 @@ CREATE TABLE ExpedienteXCliente(
 CREATE TABLE ExpedienteXMedicion(
 			idExpediente int,
 			idMedicion int
-			CONSTRAINT ExpedienteXMedicion PRIMARY KEY(idExpediente, idMedicion),
+			CONSTRAINT PK_ExpedienteXMedicion PRIMARY KEY(idExpediente, idMedicion),
 
 			CONSTRAINT ExpeMedicion FOREIGN KEY (idExpediente)
 			REFERENCES TExpediente(idExpediente),
@@ -145,7 +147,7 @@ CREATE TABLE ExpedienteXMedicion(
 CREATE TABLE ExpedienteXRutina(
 			idExpediente int,
 			idRutina int
-			CONSTRAINT ExpedienteXRutina PRIMARY KEY(idExpediente, idRutina),
+			CONSTRAINT PK_ExpedienteXRutina PRIMARY KEY(idExpediente, idRutina),
 
 			CONSTRAINT ExpeRutina FOREIGN KEY (idExpediente)
 			REFERENCES TExpediente(idExpediente),
