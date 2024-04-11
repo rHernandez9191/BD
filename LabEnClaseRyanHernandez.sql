@@ -232,7 +232,11 @@ SELECT *FROM TUsuarios
 
 UPDATE TUsuarios
 SET rol = 'Profesor'
-WHERE nombre = 'jenifer'
+WHERE nombre = 'Eduardo'
+
+UPDATE TUsuarios
+SET rol = 'Profesor'
+WHERE idUsuario = 3
 
 UPDATE TUsuarios
 SET cedula = 3366582
@@ -284,32 +288,23 @@ DELETE FROM TUsuarios
 
 ----Consultas----
 
-SELECT nombre, creditos, horasSemanales FROM TCurso WHERE nombre = 'bases de datos'
+SELECT nombre, creditos, horasSemanales FROM TCurso WHERE idCarrera = 32
 
-SELECT titulo FROM TCarrera WHERE idCarrera = 31 
+SELECT nombre FROM TCarrera WHERE idCarrera = 33 
 
-SELECT nombre, titulo FROM TCarrera WHERE nombre = 'desarrollo de software'
+SELECT nombre FROM TUsuarios WHERE rol = 'profesor'
 
-SELECT nombre, horasSemanales FROM TCurso WHERE idCarrera = 32
+SELECT nombre FROM TUsuarios WHERE cedula = 222565652
 
-SELECT * FROM TProfesor WHERE idUsuario = 1
+SELECT * FROM TCiclo WHERE año = 2024
+
+SELECT año, fechaInicio,fechaFinal FROM TCiclo WHERE numero = 2
 
 SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
 
-SELECT * FROM TAlumno WHERE idAlumno = 20
+SELECT nombre, cedula FROM TUsuarios WHERE rol = 'estudiante'
 
-SELECT * FROM TUsuarios WHERE cedula = 22658974
-
-SELECT * FROM TCiclo WHERE año = 2024
 ----------------------------------------------------
-
-
-SELECT * FROM TCarrera
-INNER JOIN TCurso ON TCarrera.idCarrera = TCurso.idCurso
-
-SELECT numero, horario FROM TGrupo
-INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
-
 
 
 -----------Procesos------------
@@ -438,7 +433,7 @@ END;
 EXEC EliminarAlumno 33
 
 ----Funcion consultar alumno ----
-CREATE OR ALTER FUNCTION ConsultaAlumno(
+CREATE OR ALTER FUNCTION ConsultaUsuario(
     @ID INT
 )
 RETURNS TABLE
@@ -449,12 +444,12 @@ RETURN
         fechaNacimiento,
         email
     FROM
-        TAlumno
+        TUsuarios
     WHERE
-        idAlumno = @ID;
+        idUsuario = @ID;
 
 ---Ejecucion ConsultarAlumno
-SELECT * FROM ConsultaAlumno(33)
+SELECT * FROM ConsultaUsuario(5)
 
 ---- Funcion consultar tabla de alumnos ----
 CREATE OR ALTER PROCEDURE ConsultarListaAlumnos
