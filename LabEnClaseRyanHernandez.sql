@@ -154,25 +154,26 @@ CREATE TABLE GrupoXCiclo(
 
 --Insert-----
 
-INSERT INTO TCurso
-VALUES (19
-		,'Biologia'
-		,7
-		,10)
-
-INSERT INTO TProfesor
-VALUES(43
-		,'Berta Rojas'
-		,1148889654
-		,74728569
-		,'Bertarojas@gmail.com')
-
 INSERT INTO TCiclo
-VALUES (4
-		,2025
-		,4
-		,'2025-01-25'
-		,'2025-04-30')
+VALUES (67,
+		2026,
+		1,
+		'2026-01-21',
+		'2026-04-21')
+
+INSERT INTO TCarrera
+VALUES(31,
+		'Medicina General',
+		'Medico especializado',
+		61
+		)
+
+INSERT INTO TCurso
+VALUES (75,
+		'Introduccion a la technologia',
+		4,
+		4,
+		32)
 
 INSERT INTO TUsuarios
 VALUES(73
@@ -181,7 +182,7 @@ VALUES(73
 		,'Matriculador'
 		,'BR@universidad.com')
 
-INSERT INTO TCarrera
+INSERT INTO TProfesor
 VALUES(33
 		,'Fisica'
 		,'Bachillerato en Fisica'
@@ -206,6 +207,7 @@ VALUES(53
 		,19)
 
 ----read---
+SELECT * FROM TUsuarios
 
 SELECT *FROM TAlumno
 
@@ -224,7 +226,7 @@ SELECT *FROM TUsuarios
 --Update---
 
 UPDATE TUsuarios
-SET cedula = 1313131415
+SET rol = 'Profesor'
 WHERE nombre = 'jenifer'
 
 UPDATE TUsuarios
@@ -362,7 +364,7 @@ VALUES(
 	@ciclo
 )
 END
-EXEC InsertarCarrera 31, 'Desarrollo de software', 'Ingeniero de software', 61
+EXEC InsertarCarrera 33, 'Electronica Industiral', 'Ingeniero Electrico', 61
 
 
 ---------PROCESO INSERTAR CURSO---------
