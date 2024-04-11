@@ -31,21 +31,6 @@ CREATE TABLE TCurso(
 			REFERENCES TCarrera(idCarrera)
 			)
 
-
-CREATE TABLE TGrupo(
-			idGrupo int primary key,
-			horario varchar(50),
-			numero int,
-			idCiclo int,
-			idCurso int,
-
-			CONSTRAINT FK_Ciclo FOREIGN KEY (idCiclo)
-			REFERENCES TCiclo(idCiclo),
-			
-			CONSTRAINT FK_CursoG FOREIGN KEY (idCurso)
-			REFERENCES TCurso(idCurso),
-			)
-
 CREATE TABLE TUsuarios(
 			idusuario int primary key,
 			nombre varchar(30),
@@ -56,19 +41,6 @@ CREATE TABLE TUsuarios(
 			telefono int
 			)
 
-CREATE TABLE TAlumno(
-			idAlumno int primary key,
-			idCarrera int not null,
-			idGrupo int not null
-
-			CONSTRAINT FK_CarreraAlumno FOREIGN KEY (idCarrera)
-			REFERENCES TCarrera(idCarrera),
-
-			
-			CONSTRAINT FK_Alumno FOREIGN KEY (idGrupo)
-			REFERENCES TGrupo(idGrupo)
-			)
-
 CREATE TABLE TProfesor(
 			idProfesor int primary key,
 			idUsuario int not null
@@ -77,6 +49,40 @@ CREATE TABLE TProfesor(
 			REFERENCES TUsuarios(idUsuario)
 			)
 
+CREATE TABLE TGrupo(
+			idGrupo int primary key,
+			horario varchar(50),
+			numero int,
+			idCiclo int,
+			idCurso int,
+			idProfesor int
+
+			CONSTRAINT FK_Ciclo FOREIGN KEY (idCiclo)
+			REFERENCES TCiclo(idCiclo),
+			
+			CONSTRAINT FK_CursoG FOREIGN KEY (idCurso)
+			REFERENCES TCurso(idCurso),
+
+			CONSTRAINT FK_GrupoProfe FOREIGN KEY (idProfesor)
+			REFERENCES TProfesor(idProfesor)
+			)
+
+CREATE TABLE TAlumno(
+			idAlumno int primary key,
+			idCarrera int not null,
+			idGrupo int not null,
+			idUsuario int not null
+
+			CONSTRAINT FK_CarreraAlumno FOREIGN KEY (idCarrera)
+			REFERENCES TCarrera(idCarrera),
+
+			
+			CONSTRAINT FK_Alumno FOREIGN KEY (idGrupo)
+			REFERENCES TGrupo(idGrupo),
+
+			CONSTRAINT FK_AlumnoUsuario FOREIGN KEY (idUsuario)
+			REFERENCES TUsuarios(idUsuario)
+			)
 
 -----------INTERMEDIAS------------
 
@@ -176,35 +182,34 @@ VALUES (75,
 		32)
 
 INSERT INTO TUsuarios
-VALUES(73
-		,'bernal rivas'
-		,73594215
-		,'Matriculador'
-		,'BR@universidad.com')
+VALUES(5,
+		'ronald',
+		13594215,
+		'Estudiante',
+		'Roron@universidad.com',
+		'2005-09-16',
+		62624623)
 
 INSERT INTO TProfesor
-VALUES(33
-		,'Fisica'
-		,'Bachillerato en Fisica'
-		, 4
-		,19)
-
-INSERT INTO TAlumno 
-VALUES(19
-		,'Alejandro Magno'
-		,22444085
-		,118380937
-		,'magnito@gmai.com'
-		,'2003-04-24'
-		,22)
+VALUES(102,
+		2
+		)	
 
 INSERT INTO TGrupo
-VALUES(53
-		,'L-M 12pm - 4pm'
-		,3
-		,4
-		,19
-		,19)
+VALUES( 132,
+		'M-J',
+		2,
+		61,
+		71,
+		102
+		)
+
+INSERT INTO TAlumno
+VALUES(161,
+		31,
+		131,
+		5
+		)
 
 ----read---
 SELECT * FROM TUsuarios
@@ -279,15 +284,15 @@ DELETE FROM TUsuarios
 
 ----Consultas----
 
-SELECT * FROM TCurso WHERE nombre = 'Fundamentos de bases de datos'
+SELECT nombre, creditos, horasSemanales FROM TCurso WHERE nombre = 'bases de datos'
 
-SELECT * FROM TCurso WHERE idCarrera = 3456 
+SELECT titulo FROM TCarrera WHERE idCarrera = 31 
 
-SELECT * FROM TCarrera WHERE nombre = 'desarrollo de software'
+SELECT nombre, titulo FROM TCarrera WHERE nombre = 'desarrollo de software'
 
-SELECT * FROM TCarrera WHERE idCarrera = 5533
+SELECT nombre, horasSemanales FROM TCurso WHERE idCarrera = 32
 
-SELECT * FROM TProfesor WHERE idProfesor = 1156654212
+SELECT * FROM TProfesor WHERE idUsuario = 1
 
 SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
 
@@ -298,11 +303,6 @@ SELECT * FROM TUsuarios WHERE cedula = 22658974
 SELECT * FROM TCiclo WHERE año = 2024
 ----------------------------------------------------
 
-SELECT nombre , titulo FROM TAlumno
-INNER JOIN TCarrera ON TAlumno.idCarrera = TCarrera.idCarrera
-
-SELECT * FROM TCurso
-INNER JOIN TCarrera ON TCurso.idCurso = TCarrera.idCarrera
 
 SELECT * FROM TCarrera
 INNER JOIN TCurso ON TCarrera.idCarrera = TCurso.idCurso
@@ -310,8 +310,7 @@ INNER JOIN TCurso ON TCarrera.idCarrera = TCurso.idCurso
 SELECT numero, horario FROM TGrupo
 INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
 
-SELECT numero, horario, idCiclo FROM TGrupo
-INNER JOIN TCurso ON TGrupo.idCurso = TCurso.idCurso
+
 
 -----------Procesos------------
 
