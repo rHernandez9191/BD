@@ -302,7 +302,7 @@ SELECT año, fechaInicio,fechaFinal FROM TCiclo WHERE numero = 2
 
 SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
 
-SELECT nombre, cedula FROM TUsuarios WHERE rol = 'estudiante'
+SELECT nombre, cedula FROM TUsuarios WHERE rol = 'estudiante' 
 
 ----------------------------------------------------
 
