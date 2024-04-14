@@ -276,3 +276,26 @@ CREATE TABLE PersonaXCliente(
 			CONSTRAINT PersonaXClienteC FOREIGN KEY (idCliente)
 			REFERENCES TCliente(idCliente)
 			)
+
+--fn_calcular_imc: Crear una función escalar que recibe el peso y estatura del cliente y retorna el valor decimal del IMC. (2 pts)
+
+--Calcular IMC de una persona fn_calcular_imc--
+
+CREATE FUNCTION fn_calcular_imc (
+    @estatura int,
+	@peso int
+	)
+RETURNS int
+AS
+BEGIN
+   
+    DECLARE @IMC int
+
+    SET @IMC = @peso / @estatura
+
+    RETURN @IMC
+END
+
+--Ejecucion fn_calcular_imc--
+
+SELECT dbo.fn_calcular_imc(5,3)	AS Resultado
