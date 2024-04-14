@@ -298,4 +298,5 @@ END
 
 --Ejecucion fn_calcular_imc--
 
-SELECT dbo.fn_calcular_imc(5,3)	AS Resultado
+SELECT dbo.fn_calcular_imc(2,10) AS Resultado
+
