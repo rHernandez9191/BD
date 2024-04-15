@@ -79,7 +79,8 @@ CREATE TABLE TMediciones(
 			hora time,
 			peso float,
 			porcentajeGrasa float,
-			porcentajeGViceral float
+			porcentajeGViceral float,
+			IMC float
 			)
 
 CREATE TABLE TCliente(
@@ -282,14 +283,14 @@ CREATE TABLE PersonaXCliente(
 --Calcular IMC de una persona fn_calcular_imc--
 
 CREATE FUNCTION fn_calcular_imc (
-    @estatura int,
-	@peso int
+    @estatura float,
+	@peso float
 	)
 RETURNS int
 AS
 BEGIN
    
-    DECLARE @IMC int
+    DECLARE @IMC float
 
     SET @IMC = @peso / @estatura
 
@@ -298,5 +299,57 @@ END
 
 --Ejecucion fn_calcular_imc--
 
-SELECT dbo.fn_calcular_imc(2,10) AS Resultado
+SELECT dbo.fn_calcular_imc(5.2,10) AS Resultado
 
+--Clasificar IMC--
+CREATE or ALTER FUNCTION fn_clasificar_imc ( 
+
+	@IMC FLOAT
+
+)
+RETURNS VARCHAR(45)
+AS
+BEGIN
+	
+	DECLARE @RESULTADO AS VARCHAR(45)
+
+	IF @IMC < 18.5 BEGIN
+		SET @RESULTADO =  'Bajo peso';
+	END
+	IF @IMC < 16 BEGIN
+		SET @RESULTADO = 'Delgadez severa';
+	END
+	IF @IMC > 16 AND @IMC < 16.99 BEGIN
+		SET @RESULTADO = 'Delgadez moderada';
+	END
+	IF @IMC >17 AND @IMC < 18.49 BEGIN
+		SET @RESULTADO = 'Delgadez leve';
+	END
+	IF @IMC > 18.5 AND @IMC < 24.99 BEGIN
+		SET @RESULTADO = 'Normal';
+	END
+	IF @IMC >= 25 BEGIN 
+		SET @RESULTADO = 'Sobrepeso';
+	END
+	IF @IMC > 25 AND @IMC < 29.99 BEGIN
+		SET @RESULTADO = 'Preobeso';
+	END
+	IF @IMC >= 30 BEGIN
+		SET @RESULTADO = 'Obesidad';
+	END
+	IF @IMC > 30 AND @IMC < 34.99 BEGIN
+		SET @RESULTADO = 'Obesidad leve';
+	END
+	IF @IMC > 35 AND @IMC <39.99 BEGIN
+		SET @RESULTADO = 'Obesidad media';
+	END
+	IF @IMC >= 40 BEGIN
+		SET @RESULTADO = 'Obesidad media';
+	END
+
+	RETURN @RESULTADO
+END
+
+--Ejecucion fn_clasificar_imc--
+
+SELECT dbo.fn_clasificar_imc(35) AS Resultado
