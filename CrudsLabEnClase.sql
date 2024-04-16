@@ -1,9 +1,5 @@
 USE LabEnClase1
 
-
-
------------Procesos------------
-
 ------Proceso InsertarCiclo
 CREATE OR ALTER PROCEDURE InsertarCiclo(
 			@idCiclo int ,
@@ -126,6 +122,54 @@ VALUES(
 		@idUsuario
 		)
 END
+-----------------Proceso insertarGrupo-----------
+CREATE OR ALTER PROCEDURE InsertarGrupo(
+			@idGrupo int,
+			@horario VARCHAR(50),
+			@numero int,
+			@idCiclo int,
+			@idCurso int,
+			@idProfesor int
+			)
+AS
+BEGIN
+	INSERT INTO TGrupo(
+				idGrupo,
+				horario,
+				numero,
+				idCiclo,
+				idCurso,
+				idProfesor
+				)
+VALUES(
+		@idGrupo,
+		@horario,
+		@numero,
+		@idCiclo,
+		@idCurso,
+		@idProfesor
+		)
+END
+----------Proceso insertar Alumno------------------
+CREATE OR ALTER PROCEDURE InsertarAlumno(
+			@idAlumno int,
+			@idCarrera int,
+			@idGrupo int,
+			@idUsuario int
+			)
+AS
+BEGIN
+	INSERT INTO TAlumno(
+			idAlumno,
+			idCarrera,
+			idGrupo,
+			idUsuario)
+VALUES(
+		@idAlumno,
+		@idCarrera,
+		@idGrupo,
+		@idUsuario) 
+END
 --------CRUDS---------
 
 -----Insertar ciclos----
@@ -198,9 +242,11 @@ EXEC InsertarUsuario 13,'Marjorie', 22238546, 'Profesor', 'marchmarch@gmail.com'
 EXEC InsertarUsuario 14,'lizandra', 12230011, 'Estudiante', 'liz2222@hotmail.com', '2003-10-15', 77767895
 EXEC InsertarUsuario 15,'Dexter', 20422898, 'Profesor', 'dexmotion@niIdea.com', '1989-03-27', 84521480
 EXEC InsertarUsuario 16,'Deborah', 30825254, 'Profesor', 'debvelop40@gmail.com', '1992-11-02', 60089465
+EXEC InsertarUsuario 17,'Andres', 15423254, 'Estudiante', 'adresillo123456@gmail.com', '2010-05-16', 84569245
+EXEC InsertarUsuario 18,'Andrea', 208229451, 'Estudiante', 'andre500@gmail.com', '2007-11-09', 70708564
 
 
------------Insertar Profesor---------------
+-----------Insertar Profesores---------------
 EXEC InsertarProfesor 101,1
 EXEC InsertarProfesor 102,2
 EXEC InsertarProfesor 103,3
@@ -212,7 +258,26 @@ EXEC InsertarProfesor 108,14
 EXEC InsertarProfesor 109,15
 EXEC InsertarProfesor 110,16
 
---------Insertar
+--------Insertar Grupos----------------------
+EXEC InsertarGrupo  131, 'L-MI 8:00AM-12:00PM', 1, 61, 71,101
+EXEC InsertarGrupo  132, 'M-J 8:00AM-12:00PM', 2, 61, 71,102
+EXEC InsertarGrupo  133, 'V-L 10:00AM-02:30PM', 3, 62, 72,103
+EXEC InsertarGrupo  134, 'M-J 8:30AM-12:00PM', 4, 63, 73,104
+EXEC InsertarGrupo  135, 'L-MI 4:00PM-6:00PM', 5, 62, 74,105
+EXEC InsertarGrupo  136, 'V-S 7:00AM-11:00PM', 6, 64, 75,106
+EXEC InsertarGrupo  137, 'L-MI 6:00PM-10:00PM', 7, 65, 76,107
+EXEC InsertarGrupo  138, 'M-J 8:00PM-10:00PM', 8, 66, 77,108
+EXEC InsertarGrupo  139, 'L-MI 1:00PM,-5:00PM', 9, 67, 78,109
 
+--------Insertar Alumno-------------
+EXEC InsertarAlumno 161, 31,131,5
+EXEC InsertarAlumno 162, 32,132,6
+EXEC InsertarAlumno 163, 33,133,7
+EXEC InsertarAlumno 164, 32,134,8
+EXEC InsertarAlumno 165, 34,135,9
+EXEC InsertarAlumno 166, 35,136,10
+EXEC InsertarAlumno 167, 36,137,14
+EXEC InsertarAlumno 168, 31,131,17
+EXEC InsertarAlumno 169, 33,133,18
 
-SELECT * FROM TProfesor
+SELECT * FROM TAlumno
