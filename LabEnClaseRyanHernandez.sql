@@ -158,59 +158,6 @@ CREATE TABLE GrupoXCiclo(
 			REFERENCES TCiclo (idCiclo)
 			)
 
---Insert-----
-
-INSERT INTO TCiclo
-VALUES (67,
-		2026,
-		1,
-		'2026-01-21',
-		'2026-04-21')
-
-INSERT INTO TCarrera
-VALUES(31,
-		'Medicina General',
-		'Medico especializado',
-		61
-		)
-
-INSERT INTO TCurso
-VALUES (75,
-		'Introduccion a la technologia',
-		4,
-		4,
-		32)
-
-INSERT INTO TUsuarios
-VALUES(5,
-		'ronald',
-		13594215,
-		'Estudiante',
-		'Roron@universidad.com',
-		'2005-09-16',
-		62624623)
-
-INSERT INTO TProfesor
-VALUES(102,
-		2
-		)	
-
-INSERT INTO TGrupo
-VALUES( 132,
-		'M-J',
-		2,
-		61,
-		71,
-		102
-		)
-
-INSERT INTO TAlumno
-VALUES(161,
-		31,
-		131,
-		5
-		)
-
 ----read---
 SELECT * FROM TUsuarios
 
@@ -268,7 +215,7 @@ DELETE FROM TUsuarios
 WHERE nombre = 'Yulian'
 
 DELETE FROM TUsuarios
-      WHERE nombre ='Juan'
+      WHERE idusuario = 14
 
 DELETE FROM TCiclo
       WHERE idCiclo = 'CD34'
@@ -282,7 +229,7 @@ DELETE FROM TGrupo
 DELETE FROM TCarrera
       WHERE nombre = 'Tecnico en desarrollo de software'
 
-DELETE FROM TUsuarios
+DELETE FROM TProfesor
       WHERE nombre = 'Antonio'
 
 
@@ -304,70 +251,3 @@ SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
 
 SELECT nombre, cedula FROM TUsuarios WHERE rol = 'estudiante' 
 
-----------------------------------------------------
-
------Proceso UpdateAlumno---
-CREATE OR ALTER PROCEDURE ModificarAlumno(
-			@idAlumno INT, 
-			@nombre VARCHAR(45),
-			@cedula INT,
-			@telefono INT,
-			@email VARCHAR(45),
-			@fechaNacimiento DATE,
-			@codigo INT)
-AS
-BEGIN
-	UPDATE TAlumno SET
-			TAlumno.idAlumno = @idAlumno,
-			TAlumno.nombre = @nombre,
-			TAlumno.cedula = @cedula,
-			TAlumno.telefono = @telefono,
-			TAlumno.email = @email,
-			TAlumno.fechaNacimiento = @fechaNacimiento,
-			TAlumno.codigo = @codigo
-	WHERE TAlumno.idAlumno = @idAlumno
-END
-----FIN DEL PROCESO---
--------Ejecucion-----
-EXEC ModificarAlumno 33,'Eduardo Flores',222248956,65689325,'edflores@yahoo.com','1992-10-09',33
-
----- Proceso eliminar alumno ----
-CREATE OR ALTER PROCEDURE EliminarAlumno(
-			@idAlumno INT)
-AS
-BEGIN
-			DELETE FROM TAlumno 
-			WHERE @idAlumno = idAlumno;
-END;
-----------Ejecucion eliminarAlumno----
-EXEC EliminarAlumno 33
-
-----Funcion consultar alumno ----
-CREATE OR ALTER FUNCTION ConsultaUsuario(
-    @ID INT
-)
-RETURNS TABLE
-AS
-RETURN
-    SELECT 
-        nombre,
-        fechaNacimiento,
-        email
-    FROM
-        TUsuarios
-    WHERE
-        idUsuario = @ID;
-
----Ejecucion ConsultarAlumno
-SELECT * FROM ConsultaUsuario(5)
-
----- Funcion consultar tabla de alumnos ----
-CREATE OR ALTER PROCEDURE ConsultarListaAlumnos
-AS
-BEGIN
-	SELECT * FROM TAlumno;
-END;
-
-----Ejecucion ConsultarListaAlumnos ----
-
-EXEC ConsultarListaAlumnos;

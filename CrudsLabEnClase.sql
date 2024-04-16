@@ -84,9 +84,10 @@ CREATE OR ALTER PROCEDURE InsertarUsuario(
 			@idUsuario int,
 			@nombre varchar(50),
 			@cedula int,
-			@telefono int,
+			@rol VARCHAR(50),
 			@email varchar(50),
-			@fechaNacimiento date
+			@fechaNacimiento date,
+			@telefono int
 			 )
 AS
 BEGIN
@@ -94,25 +95,37 @@ BEGIN
 				idusuario,
 				nombre,
 				cedula,
-				telefono,
+				rol,
 				email,
-				fechaNacimiento
+				fechaNacimiento,
+				telefono
 				)
 VALUES(	 
 	@idUsuario,
 	@nombre, 
 	@cedula,
-	@telefono,
+	@rol,
 	@email,
-	@fechaNacimiento
+	@fechaNacimiento,
+	@telefono
 	)
 END
-----FIN DEL PROCESO
------Ejecucion
-EXEC InsertarUsuario 3,'Carlos', 20058906, 68689272, 'Carl@yahoo.com','1995-11-10'
-
-SELECT * FROM TCarrera
-
+------------------Proceso InsertarProfesor--------------------
+CREATE OR ALTER PROCEDURE InsertarProfesor(
+			@idProfesor int,
+			@idUsuario int
+			)
+AS
+BEGIN
+	INSERT INTO TProfesor(
+				idProfesor,
+				idUsuario
+				)
+VALUES(
+		@idProfesor,
+		@idUsuario
+		)
+END
 --------CRUDS---------
 
 -----Insertar ciclos----
@@ -155,6 +168,51 @@ EXEC InsertarCurso 85, 'Principios de la biomecanica', 2, 10, 34
 EXEC InsertarCurso 86, 'biomecanica avanzada', 4, 10, 34
 EXEC InsertarCurso 87, 'biomecanica en un fin de semana', 8, 15, 34
 
-EXEC InsertarCurso 88, 'Neurologia', 10, 20, 35
-EXEC InsertarCurso 89, 'Neurologia', 10, 20, 35
-EXEC InsertarCurso 90, 'Neurologia', 10, 20, 35
+EXEC InsertarCurso 88, 'Valores#1', 2, 5, 35
+EXEC InsertarCurso 89, 'MEtodologia explicativa', 8, 12, 35
+EXEC InsertarCurso 90, 'Ciencias de la enseñanza', 6, 9, 35
+
+EXEC InsertarCurso 91, 'Metodologia Matematica', 9, 18, 36
+EXEC InsertarCurso 92, 'Herramientas Informaticas', 3, 4, 36
+EXEC InsertarCurso 93, 'Contabilidad Empresarial', 7, 9, 36
+EXEC InsertarCurso 94, 'Matematica Avanzada', 10, 22, 36
+
+EXEC InsertarCurso 95, 'Criminologia#1', 6, 8, 37
+EXEC InsertarCurso 96, 'Leyes Penales', 6, 7, 37
+EXEC InsertarCurso 97, 'Criminologia#2', 10, 20, 37
+
+----------Insertar usuarios-----------
+EXEC InsertarUsuario 1,'Eduardo', 11231124, 'Profesor', 'Edeeed@yahoo.com', '1996-11-10', 8956454
+EXEC InsertarUsuario 2,'Juliana', 22289581, 'Profesor', 'JJJJBBB@yahoo.com', '2001-08-10', 6567123
+EXEC InsertarUsuario 3,'Carlos', 11425252, 'Profesor', 'carl@yahoo.com', '1991-05-10', 76058954
+EXEC InsertarUsuario 4,'Bernal', 33369694, 'Profesor', 'Berz@yahoo.com', '1997-08-10', 88965412
+EXEC InsertarUsuario 5,'Ronald', 96969481, 'Estudiante', 'Ronaldono@yahoo.com', '1999-09-10', 66685252
+EXEC InsertarUsuario 6,'Martin', 11158625, 'Estudiante', 'martByr@yahoo.com', '2004-12-10', 79752146
+EXEC InsertarUsuario 7,'Wendy', 11895478, 'Estudiante', 'wen@yahoo.com', '2000-01-10', 55628741
+EXEC InsertarUsuario 8,'Johna', 20202258, 'Estudiante', 'Jna123@yahoo.com', '2005-06-10', 2252525
+EXEC InsertarUsuario 9,'Ruth', 20089642, 'Estudiante', 'rugge85@yahoo.com', '2003-09-10', 64123817
+EXEC InsertarUsuario 10,'Deliberto', 33345862, 'Estudiante', 'Dellii@yahoo.com', '1995-12-10', 72251983
+EXEC InsertarUsuario 11,'Walter', 11445323, 'Profesor', 'profewal@gmail.com', '1994-01-30', 89521746
+EXEC InsertarUsuario 12,'Heberto', 45198372, 'Profesor', 'sdhumberto@gmail.com', '1985-03-19', 67941985
+EXEC InsertarUsuario 13,'Marjorie', 22238546, 'Profesor', 'marchmarch@gmail.com', '2002-05-08', 5064852
+EXEC InsertarUsuario 14,'lizandra', 12230011, 'Estudiante', 'liz2222@hotmail.com', '2003-10-15', 77767895
+EXEC InsertarUsuario 15,'Dexter', 20422898, 'Profesor', 'dexmotion@niIdea.com', '1989-03-27', 84521480
+EXEC InsertarUsuario 16,'Deborah', 30825254, 'Profesor', 'debvelop40@gmail.com', '1992-11-02', 60089465
+
+
+-----------Insertar Profesor---------------
+EXEC InsertarProfesor 101,1
+EXEC InsertarProfesor 102,2
+EXEC InsertarProfesor 103,3
+EXEC InsertarProfesor 104,4
+EXEC InsertarProfesor 105,11
+EXEC InsertarProfesor 106,12
+EXEC InsertarProfesor 107,13
+EXEC InsertarProfesor 108,14
+EXEC InsertarProfesor 109,15
+EXEC InsertarProfesor 110,16
+
+--------Insertar
+
+
+SELECT * FROM TProfesor
