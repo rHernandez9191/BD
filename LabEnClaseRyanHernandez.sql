@@ -182,8 +182,7 @@ SELECT nombre, cedula FROM TUsuarios WHERE rol = 'Estudiante'
 SELECT nombre, cedula FROM TUsuarios INNER JOIN TAlumno
 ON TUsuarios.idusuario = TAlumno.idUsuario
 
-SELECT nombre, cedula FROM TUsuarios INNER JOIN TAlumno
-ON TUsuarios.idusuario = TAlumno.idUsuario
+
 
 -----Mantenimiento de ciclo-----------------
 SELECT * FROM TCiclo WHERE año = 2024
