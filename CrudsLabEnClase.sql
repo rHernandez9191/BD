@@ -279,5 +279,73 @@ EXEC InsertarAlumno 166, 35,136,10
 EXEC InsertarAlumno 167, 36,137,14
 EXEC InsertarAlumno 168, 31,131,17
 EXEC InsertarAlumno 169, 33,133,18
+-----------------------------------------------------
 
-SELECT * FROM TAlumno
+----read---
+SELECT * FROM TUsuarios
+
+SELECT *FROM TAlumno
+
+SELECT *FROM TProfesor
+
+SELECT *FROM TCiclo
+
+SELECT *FROM TCurso
+
+SELECT *FROM TGrupo
+
+SELECT *FROM TCarrera
+
+--Update---
+
+UPDATE TUsuarios
+SET rol = 'Profesor'
+WHERE nombre = 'Eduardo'
+
+UPDATE TAlumno
+SET idCarrera = 32
+WHERE idUsuario = 29
+
+UPDATE TProfesor
+SET idUsuario = 28
+WHERE idProfesor = 129
+
+UPDATE TCiclo
+SET año = 2025
+WHERE fechaInicio like '2025%'
+
+UPDATE TCurso
+SET creditos = 6
+WHERE creditos = 5
+
+UPDATE TGrupo
+SET numero = 2
+WHERE idGrupo = 158
+
+UPDATE TCarrera
+SET nombre = 'Programacion'
+WHERE nombre = 'Desarrollo de software'
+
+-- Delete----
+
+DELETE FROM TUsuarios 
+WHERE nombre = 'Yulian'
+
+DELETE FROM TUsuarios
+      WHERE idusuario = 30
+
+DELETE FROM TCiclo
+      WHERE numero = 6 
+
+DELETE FROM TCurso
+      WHERE creditos = 6
+
+DELETE FROM TGrupo
+      WHERE idGrupo = 145
+
+DELETE FROM TCarrera
+      WHERE nombre = 'Desarrollo de software'
+
+DELETE FROM TProfesor
+      WHERE idProfesor = 101
+

@@ -158,96 +158,28 @@ CREATE TABLE GrupoXCiclo(
 			REFERENCES TCiclo (idCiclo)
 			)
 
-----read---
-SELECT * FROM TUsuarios
-
-SELECT *FROM TAlumno
-
-SELECT *FROM TProfesor
-
-SELECT *FROM TCiclo
-
-SELECT *FROM TCurso
-
-SELECT *FROM TGrupo
-
-SELECT *FROM TCarrera
-
-SELECT *FROM TUsuarios
-
---Update---
-
-UPDATE TUsuarios
-SET rol = 'Profesor'
-WHERE nombre = 'Eduardo'
-
-UPDATE TUsuarios
-SET rol = 'Profesor'
-WHERE idUsuario = 3
-
-UPDATE TUsuarios
-SET cedula = 3366582
-WHERE nombre = 'juan'
-
-UPDATE TCiclo
-SET año = 2025
-WHERE idCiclo = 'CD34'
-
-UPDATE TCurso
-SET creditos = 6
-WHERE creditos = 5
-
-UPDATE TGrupo
-SET numero = 2
-WHERE idGrupo = 'PR12'
-
-UPDATE TCarrera
-SET nombre = 'Programacion'
-WHERE nombre = 'Desarrollo de software'
-
-UPDATE TUsuarios
-SET cedula = 156892568
-WHERE nombre = 'Antonio'
-
--- Delete----
-
-DELETE FROM TUsuarios 
-WHERE nombre = 'Yulian'
-
-DELETE FROM TUsuarios
-      WHERE idusuario = 14
-
-DELETE FROM TCiclo
-      WHERE idCiclo = 'CD34'
-
-DELETE FROM TCurso
-      WHERE creditos = 6
-
-DELETE FROM TGrupo
-      WHERE idGrupo = 'PR12'
-
-DELETE FROM TCarrera
-      WHERE nombre = 'Tecnico en desarrollo de software'
-
-DELETE FROM TProfesor
-      WHERE nombre = 'Antonio'
-
 
 ----Consultas----
------Punto 1 del documento
-SELECT nombre, creditos, horasSemanales FROM TCurso WHERE idCarrera = 32
+-----Mantenimiento de cursos------
+SELECT nombre FROM TCurso WHERE idCarrera = 32
+SELECT * FROM TCurso where nombre = 'bases de datos'
 
-SELECT nombre FROM TCarrera WHERE idCarrera = 33 
+------Mantenimiento de carreras
+SELECT nombre FROM TCarrera WHERE idCarrera = 33
+SELECT * FROM TCarrera WHERE nombre = 'Medicina general'
 
+------Mantenimiento de profesores***
 SELECT nombre FROM TUsuarios WHERE rol = 'profesor'
+----falta
 
-SELECT nombre FROM TUsuarios WHERE cedula = 222565652
+-----Mantenimiento de Alumnos------
+SELECT nombre, cedula FROM TUsuarios WHERE rol = 'Estudiante'
 
+-----Mantenimiento de ciclo-----------------
 SELECT * FROM TCiclo WHERE año = 2024
-
+SELECT * FROM TCiclo WHERE año BETWEEN 2024 AND 2026
 SELECT año, fechaInicio,fechaFinal FROM TCiclo WHERE numero = 2
 
-SELECT * FROM TUsuarios WHERE nombre = 'Juliana'
+-----Oferta Academica-----------
 
-SELECT nombre, cedula FROM TUsuarios WHERE rol = 'estudiante' 
 
