@@ -12,7 +12,7 @@ CREATE TABLE TCiclo(
 
 CREATE TABLE TCarrera(
 			idCarrera int primary key,
-			nombre varchar(50),
+			carrera varchar(50),
 			titulo varchar(50),
 			ciclo int,	
 			
@@ -158,7 +158,6 @@ CREATE TABLE GrupoXCiclo(
 			REFERENCES TCiclo (idCiclo)
 			)
 
-
 ----Consultas----
 -----Mantenimiento de cursos-------------------------------------
 SELECT nombre FROM TCurso WHERE idCarrera = 32
@@ -179,16 +178,22 @@ ON TUsuarios.idusuario = TProfesor.idUsuario
 -----Mantenimiento de Alumnos-------------------------------------
 SELECT nombre, cedula FROM TUsuarios WHERE rol = 'Estudiante'
 
-SELECT nombre, cedula FROM TUsuarios INNER JOIN TAlumno
-ON TUsuarios.idusuario = TAlumno.idUsuario
-
-
+SELECT TUsuarios.nombre, TCarrera.carrera FROM TAlumno 
+INNER JOIN TUsuarios ON TUsuarios.idusuario = TAlumno.idUsuario
+INNER JOIN TCarrera ON TCarrera.idCarrera = TAlumno.idCarrera
 
 -----Mantenimiento de ciclo-----------------
 SELECT * FROM TCiclo WHERE año = 2024
+
 SELECT * FROM TCiclo WHERE año BETWEEN 2024 AND 2026
+
 SELECT año, fechaInicio,fechaFinal FROM TCiclo WHERE numero = 2
 
 -----Oferta Academica-----------
+SELECT TCarrera.carrera, TCurso.nombre, TCiclo.año, TCiclo.numero as numeroDeCiclo
+FROM TCurso 
+INNER JOIN TCarrera ON TCurso.idCarrera = TCarrera.idCarrera
+INNER JOIN TCiclo ON TCarrera.Ciclo = TCiclo.idCiclo
+ORDER BY numeroDeCiclo
 
 
