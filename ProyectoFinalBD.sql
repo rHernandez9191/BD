@@ -350,6 +350,47 @@ BEGIN
 	RETURN @RESULTADO
 END
 
+Select CONVERT(date, GETDATE()) AS FechaActual
+
 --Ejecucion fn_clasificar_imc--
 
 SELECT dbo.fn_clasificar_imc(35) AS Resultado
+
+-- Calcular la edad --
+
+CREATE OR ALTER FUNCTION fn_edad (
+	@fechaNacimiento DATE
+)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @fechaEntero INT;
+	DECLARE @fheca INT
+	DECLARE @resultado INT
+	
+	SET @fechaEntero = CONVERT(INT, YEAR(@fechaNacimiento));
+
+	SET @fecha = YEAR(GETDATE())
+
+	SET @resultado = @fecha - @fechaEntero;
+
+	RETURN @resultado
+END 
+
+SELECT dbo.fn_edad ('09-03-2002')
+
+
+CREATE OR ALTER FUNCTION fn_vasos_agua (
+	@peso INT
+)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @cantVasos INT
+
+	SET @cantVasos = @peso / 7;
+
+	RETURN @cantVasos
+END
+
+SELECT dbo.fn_vasos_agua(70)
