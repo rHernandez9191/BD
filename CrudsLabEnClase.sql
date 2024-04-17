@@ -332,7 +332,7 @@ DELETE FROM TUsuarios
 WHERE nombre = 'Yulian'
 
 DELETE FROM TUsuarios
-      WHERE idusuario = 30
+      WHERE idusuario = 14
 
 DELETE FROM TCiclo
       WHERE numero = 6 
@@ -347,5 +347,5 @@ DELETE FROM TCarrera
       WHERE nombre = 'Desarrollo de software'
 
 DELETE FROM TProfesor
-      WHERE idProfesor = 101
+      WHERE idProfesor = 108
 

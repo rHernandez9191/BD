@@ -160,20 +160,30 @@ CREATE TABLE GrupoXCiclo(
 
 
 ----Consultas----
------Mantenimiento de cursos------
+-----Mantenimiento de cursos-------------------------------------
 SELECT nombre FROM TCurso WHERE idCarrera = 32
+
 SELECT * FROM TCurso where nombre = 'bases de datos'
 
 ------Mantenimiento de carreras
 SELECT nombre FROM TCarrera WHERE idCarrera = 33
+
 SELECT * FROM TCarrera WHERE nombre = 'Medicina general'
 
-------Mantenimiento de profesores***
+------Mantenimiento de profesoreS----------------------------------
 SELECT nombre FROM TUsuarios WHERE rol = 'profesor'
-----falta
 
------Mantenimiento de Alumnos------
+SELECT nombre,cedula FROM TUsuarios INNER JOIN TProfesor
+ON TUsuarios.idusuario = TProfesor.idUsuario
+
+-----Mantenimiento de Alumnos-------------------------------------
 SELECT nombre, cedula FROM TUsuarios WHERE rol = 'Estudiante'
+
+SELECT nombre, cedula FROM TUsuarios INNER JOIN TAlumno
+ON TUsuarios.idusuario = TAlumno.idUsuario
+
+SELECT nombre, cedula FROM TUsuarios INNER JOIN TAlumno
+ON TUsuarios.idusuario = TAlumno.idUsuario
 
 -----Mantenimiento de ciclo-----------------
 SELECT * FROM TCiclo WHERE año = 2024
