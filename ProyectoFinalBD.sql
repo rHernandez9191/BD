@@ -85,12 +85,12 @@ CREATE TABLE TMediciones(
 			)
 
 CREATE TABLE TCliente(
-			idCliente int not null PRIMARY KEY,
+			idCliente VARCHAR(45) not null PRIMARY KEY,
 			idPersona VARCHAR(45) not null,
 			estatura float,
 			sexo varchar(1),
 			altoRiesgo varchar(2),
-			idInstructor int not null,
+			idInstructor VARCHAR(45) not null,
 
 			CONSTRAINT FK_PersonaCliente FOREIGN KEY (idPersona)
 			REFERENCES TPersona (idPersona),
@@ -107,7 +107,7 @@ CREATE TABLE TRutina(
 
 CREATE TABLE TExpediente(
 			idExpediente int PRIMARY KEY,
-			idCliente int not null,
+			idCliente VARCHAR(45) not null,
 			idMedicion int,
 			idRutina int 
 
@@ -124,7 +124,7 @@ CREATE TABLE TExpediente(
 ----- INTERMEDIAS
 CREATE TABLE ExpedienteXCliente(
 			idExpediente int,
-			idCliente int
+			idCliente VARCHAR(45)
 			CONSTRAINT PK_ExpedienteXCliente PRIMARY KEY(idExpediente, idCliente),
 
 			CONSTRAINT ExpeXcliente FOREIGN KEY (idExpediente)
@@ -220,7 +220,7 @@ CREATE TABLE PagoXUAdmin(
 			)
 
 CREATE TABLE ClienteXMedicion(
-			idCliente int not null,
+			idCliente VARCHAR(45) not null,
 			idMedicion int not null,
 			CONSTRAINT ClienteXMedicionCM PRIMARY KEY(idCliente, idMedicion),
 
@@ -232,7 +232,7 @@ CREATE TABLE ClienteXMedicion(
 			)
 
 CREATE TABLE ClienteXInstructor(
-			idCliente int not null,
+			idCliente VARCHAR(45) not null,
 			idInstructor int not null
 			CONSTRAINT ClienteXInstructorCI PRIMARY KEY (idCliente, idInstructor),
 			
@@ -269,7 +269,7 @@ CREATE TABLE PersonaXUAdmin(
 
 CREATE TABLE PersonaXCliente(
 			idPersona VARCHAR(45) not null,
-			idCliente int not null
+			idCliente VARCHAR(45) not null
 			CONSTRAINT PersonaXClientePC PRIMARY KEY (idPersona, idCliente),
 			
 			CONSTRAINT PersonaXClienteP FOREIGN KEY(idPersona)
@@ -305,38 +305,29 @@ EXEC insertar_persona 'Pedro Martínez', '112233445', '1985-09-18', 'pedromartine
 EXEC insertar_persona 'Ana López', '777888999', '1977-07-22', 'ana.lopez@example.com', 99998888;
 EXEC insertar_persona 'Carlos Fernandez', '456789012', '2000-04-10', 'carlosfernandez@example.com', 11112222;
 
+SELECT * FROM TPersona
+
+--Insertar Instructor--
+
+
+--Insertar cliente--
 
 CREATE OR ALTER PROCEDURE insertar_cliente (
-	@idPersona , @estatura, @sexo, @altoRiesgo, @idInstructor
+	@idPersona VARCHAR(45), @estatura FLOAT, @sexo VARCHAR(1), @altoRiesgo VARCHAR(2), @idInstructor VARCHAR(45)
 )
 AS
 BEGIN
 
-	DECLARE @idCliente INT;
-	DECLARE @idPersona Varchar(45);
-	SET @idPersona = 'An-2244-11'
-	SELECT cedula FROM TPersona WHERE @idPersona = TPersona.idPersona
+	DECLARE @idCliente VARCHAR(45);
+	SET @idCliente = @idPersona + '-' + @sexo + '-' + @altoRiesgo + '-' + LEFT(@idInstructor,2)
 
-
-	CONVERT(SELECT cedula FROM TPersona WHERE idPersona = TPersona.idPersona, INT);
-
-			([idCliente]
-           ,[idPersona]
-           ,[estatura]
-           ,[sexo]
-           ,[altoRiesgo]
-           ,[idInstructor])
-
-
-	--DECLARE @idPersona VARCHAR(45)
-	--SET @idPersona = LEFT(@nombre, 2) + '-' + LEFT(@cedula,4) + '-' + RIGHT(@fechaNacimiento, 2)
-
-	--INSERT INTO TPersona VALUES(@idPersona, @nombre, @cedula, @fechaNacimiento, @email, @telefono)--
+	INSERT INTO TCliente VALUES(@idCliente, @idPersona, @estatura, @sexo, @altoRiesgo, @idInstructor)
 
 END
-SELECT * FROM TPersona
 
+--Insertar cliente--
 
+EXEC insertar_cliente 'Al-2244-11', 1.8, 'M', 'Si', 
 
 --Calcular IMC de una persona fn_calcular_imc--
 
@@ -492,7 +483,7 @@ TPersona(
 			telefono int)
 
 TCliente(
-			idCliente int not null PRIMARY KEY,
+			idCliente VARCHAR(45) not null PRIMARY KEY,
 			idPersona int not null,
 			estatura float,
 			sexo varchar(1),
@@ -511,7 +502,7 @@ TCliente(
 
 TExpediente(
 			idExpediente int PRIMARY KEY,
-			idCliente int not null,
+			idCliente VARCHAR(45) not null,
 			idMedicion int,
 			idRutina int 
 
