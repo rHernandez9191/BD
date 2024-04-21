@@ -12,36 +12,36 @@ CREATE TABLE TPersona(
 			)
 
 CREATE TABLE TGymnasio (
-			idGymnasio int not null PRIMARY KEY,
-			marca varchar(45) not null,
-			telefonoGeneral int,
-			contacto varchar(45)
+			idGymnasio VARCHAR(45) not null PRIMARY KEY,
+			marca VARCHAR(45) not null,
+			telefonoGeneral VARCHAR(45),
+			contacto VARCHAR(45)
 			)
-
-CREATE TABLE TSede(
-			idSede int not null PRIMARY KEY,
-			nomSede varchar(45),
-			provincia varchar(45),
-			canton varchar(45),
-			email varchar(45),
-			telefono1 int not null,
-			telefono2 int,
-			idGymnasio int
 			
+CREATE TABLE TSede(
+			idSede VARCHAR(45) not null PRIMARY KEY,
+			nomSede VARCHAR(45) not null,
+			provincia VARCHAR(45) not null,
+			canton VARCHAR(45) not null,
+			email VARCHAR(45) not null,
+			telefono1 VARCHAR(45) not null,
+			telefono2 VARCHAR(45) not null,
+			idGymnasio VARCHAR(45) not null
+
 			CONSTRAINT FK_Gym FOREIGN KEY (idGymnasio)
 			REFERENCES TGymnasio(idGymnasio)
 			)
 
 CREATE TABLE TPagos(
-			idPago int not null PRIMARY KEY,
-			rol varchar(45) not null,
+			idPago VARCHAR(45) not null PRIMARY KEY,
+			rol VARCHAR(45) not null,
 			monto int not null)
-
+			
 CREATE TABLE TInstructor(
-			idInstructor int not null PRIMARY KEY,
+			idInstructor VARCHAR(45) not null PRIMARY KEY,
 			idPersona VARCHAR(45),
-			idPago int,
-			idSede int
+			idPago VARCHAR(45),
+			idSede VARCHAR(45)
 			
 			CONSTRAINT FK_PERSONA FOREIGN  KEY (idPersona)
 			REFERENCES TPersona (idPersona),
@@ -56,7 +56,7 @@ CREATE TABLE TInstructor(
 CREATE TABLE TCertificaciones(
 			idCertificacion int not null PRIMARY KEY,
 			titulo varchar(45),
-			idInstructor int not null
+			idInstructor VARCHAR(45) not null
 
 			CONSTRAINT FK_InstructCert FOREIGN KEY (idInstructor)
 			REFERENCES TInstructor(idInstructor)
@@ -65,7 +65,7 @@ CREATE TABLE TCertificaciones(
 CREATE TABLE TUAdministrativo(
 			idUsuario int not null PRIMARY KEY,
 			idPersona VARCHAR(45) not null,
-			idPago int not null
+			idPago VARCHAR(45) not null
 
 			CONSTRAINT FK_PersonaAdmin FOREIGN  KEY (idPersona)
 			REFERENCES TPersona (idPersona),
@@ -97,7 +97,7 @@ CREATE TABLE TCliente(
 
 			CONSTRAINT FK_InstructorCli FOREIGN KEY (idInstructor)
 			REFERENCES TInstructor(idInstructor)
-			)[dbo].[TCertificaciones]
+			)
 
 CREATE TABLE TRutina(
 			idRutina int PRIMARY KEY,
@@ -160,8 +160,8 @@ CREATE TABLE ExpedienteXRutina(
 
 
 CREATE TABLE SedeXGymnasio(
-			idSede int not null,
-			idGymnasio int not null
+			idSede VARCHAR(45) not null,
+			idGymnasio VARCHAR(45) not null
 			CONSTRAINT SedeXGym PRIMARY KEY (idSede, idGymnasio),
 			
 			CONSTRAINT FK_SedeXGymS FOREIGN KEY (idSede)
@@ -172,8 +172,8 @@ CREATE TABLE SedeXGymnasio(
 			)
 
 CREATE TABLE PagoXInstructor(
-			idPago int not null,
-			idInstructor int not null
+			idPago VARCHAR(45) not null,
+			idInstructor VARCHAR(45) not null
 			CONSTRAINT PagoXinstruc PRIMARY KEY(idPago, idInstructor),
 			
 			CONSTRAINT FK_PagoXInstrucP FOREIGN KEY (idPago)
@@ -185,7 +185,7 @@ CREATE TABLE PagoXInstructor(
 
 CREATE TABLE CertificacionXInstructor(
 			idCertificacion int not null,
-			idInstructor int not null
+			idInstructor VARCHAR(45) not null
 			CONSTRAINT PagoXInstructorCI PRIMARY KEY(idCertificacion, idInstructor)
 			
 			CONSTRAINT FK_CertiXInstrucCer FOREIGN KEY (idCertificacion)
@@ -196,8 +196,8 @@ CREATE TABLE CertificacionXInstructor(
 			)
 
 CREATE TABLE InstructorXSede(
-			idInstructor int not null,
-			idSede int not null
+			idInstructor VARCHAR(45) not null,
+			idSede VARCHAR(45) not null
 			CONSTRAINT InstructXSede PRIMARY KEY(idInstructor, idSede),
 
 			CONSTRAINT FK_InstructorXSedeIns FOREIGN KEY (idInstructor)
@@ -208,7 +208,7 @@ CREATE TABLE InstructorXSede(
 			)
 
 CREATE TABLE PagoXUAdmin(
-			idPago int not null,
+			idPago VARCHAR(45) not null,
 			idUsuario int not null
 			CONSTRAINT PagoXAdmin PRIMARY KEY(idPago, idUsuario),
 			
@@ -233,7 +233,7 @@ CREATE TABLE ClienteXMedicion(
 
 CREATE TABLE ClienteXInstructor(
 			idCliente VARCHAR(45) not null,
-			idInstructor int not null
+			idInstructor VARCHAR(45) not null
 			CONSTRAINT ClienteXInstructorCI PRIMARY KEY (idCliente, idInstructor),
 			
 			CONSTRAINT ClienteXInstructorC FOREIGN KEY(idCliente)
@@ -245,7 +245,7 @@ CREATE TABLE ClienteXInstructor(
 
 CREATE TABLE PersonaXInstructor(
 			idPersona VARCHAR(45) not null,
-			idInstructor int not null
+			idInstructor VARCHAR(45) not null
 			CONSTRAINT PersonaXInstructorIP PRIMARY KEY (idPersona, idInstructor),
 			
 			CONSTRAINT PersonaXInstructorP FOREIGN KEY(idPersona)
@@ -307,8 +307,74 @@ EXEC insertar_persona 'Carlos Fernandez', '456789012', '2000-04-10', 'carlosfern
 
 SELECT * FROM TPersona
 
---Insertar Instructor--
+--Insertar pago--
 
+CREATE OR ALTER PROCEDURE insertar_pago (
+	@rol VARCHAR(45), @monto INT
+)
+AS
+BEGIN
+	DECLARE @idPago VARCHAR(45);
+	SET @idPago = LEFT(@rol,2)
+
+	INSERT INTO TPagos VALUES(@idPago, @rol, @monto)
+END
+
+--Insertar pago--
+
+EXEC insertar_pago 'Entrenador', 100000
+EXEC insertar_pago 'Administrativo', 300000
+EXEC insertar_pago 'Entrenador', 400000
+EXEC insertar_pago 'Limpieza', 350000
+EXEC insertar_pago 'Administrativo', 500000
+EXEC insertar_pago 'Gerente', 450000
+EXEC insertar_pago 'Cajero', 2500000
+
+SELECT * FROM TPagos
+
+--insertar Gymnasio--
+
+CREATE OR ALTER PROCEDURE insertar_gymnasio (
+	@marca VARCHAR(45), @telefonoGeneral VARCHAR(45), @contacto VARCHAR(45)
+)
+AS
+BEGIN 
+
+	DECLARE @idGymnasio VARCHAR(45)
+	SET @idGymnasio = LEFT(@marca, 3) + '-' + LEFT(@telefonoGeneral, 3) + '-' + LEFT(@contacto, 3)
+	INSERT INTO TGymnasio VALUES(@idGymnasio, @marca, @telefonoGeneral, @contacto)
+
+END
+
+--Insertar Gymnasio--
+
+EXEC insertar_gymnasio 'Strong Fit', '22409897', 'Giuliana Mesen'
+EXEC insertar_gymnasio 'Gym Shark', '21225654', 'Rigoberto Loria'
+EXEC insertar_gymnasio 'Tecno Gym', '22449090', 'Silvia Asofeifa'
+EXEC insertar_gymnasio 'Al Trote', '22418089', 'Genesis Villaran'
+EXEC insertar_gymnasio 'Gimnasio activo', '21213434', 'Pablo Madrid'
+
+--Insertar sede--
+--idSede, nomSede, provincia, canton, email, telefono1, telefono2, idGymnasio
+
+CREATE OR ALTER PROCEDURE insertar_sede (
+	@nomSede VARCHAR(45), @provincia VARCHAR(45), @canton VARCHAR(45), @email VARCHAR(45), @telefono1 VARCHAR(45), @telefono2 VARCHAR(45), @idGymnasio VARCHAR(45)
+)
+AS
+BEGIN
+	DECLARE @idSede VARCHAR(45)
+	SET @idSede = @idGymnasio + '-' + LEFT(@nomSede, 3) + '-' + LEFT(@provincia, 1) + '-' + @canton + '-' + LEFT(@telefono1, 2)
+	INSERT INTO TSede VALUES(@idSede, @nomSede, @provincia, @canton, @email, @telefono1, @telefono2, @idGymnasio)
+END
+
+--Insertar Sede--
+
+EXEC insertar_sede 'Gimnasio activo pacifico', 
+
+--Insertar Instructor--
+--idInstructor, idPersona, idPago, idSede
+CREATE OR ALTER PROCEDURE(
+	
 
 --Insertar cliente--
 
@@ -325,7 +391,12 @@ BEGIN
 
 END
 
+
 --Insertar cliente--
+--idInstructor, idPErsona, idPago, idSede--
+
+
+
 
 EXEC insertar_cliente 'Al-2244-11', 1.8, 'M', 'Si', 
 
@@ -488,7 +559,7 @@ TCliente(
 			estatura float,
 			sexo varchar(1),
 			altoRiesgo varchar(2),
-			idInstructor int not null,
+			idInstructor VARCHAR(45) not null,
 
 			CONSTRAINT FK_PersonaCliente FOREIGN  KEY (idPersona)
 			REFERENCES TPersona (idPersona),
