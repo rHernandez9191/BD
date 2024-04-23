@@ -369,8 +369,9 @@ END
 
 --Insertar Sede--
 
-EXEC insertar_sede 'Gimnasio activo pacifico', 
+EXEC insertar_sede 'Sede central', 'San jose', '
 
+SELECT * FROM TSede 
 --Insertar Instructor--
 --idInstructor, idPersona, idPago, idSede
 CREATE OR ALTER PROCEDURE(
