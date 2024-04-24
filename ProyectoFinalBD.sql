@@ -342,7 +342,7 @@ BEGIN
 
 	DECLARE @idGymnasio VARCHAR(45)
 	SET @idGymnasio = LEFT(@marca, 3) + '-' + LEFT(@telefonoGeneral, 3) + '-' + LEFT(@contacto, 3)
-	INSERT INTO TGymnasio VALUES(@idGymnasio, @marca, @telefonoGeneral, @contacto)
+	INSERT INTO TGymnasio VALUES (@idGymnasio, @marca, @telefonoGeneral, @contacto)
 
 END
 
@@ -355,7 +355,6 @@ EXEC insertar_gymnasio 'Al Trote', '22418089', 'Genesis Villaran'
 EXEC insertar_gymnasio 'Gimnasio activo', '21213434', 'Pablo Madrid'
 
 --Insertar sede--
---idSede, nomSede, provincia, canton, email, telefono1, telefono2, idGymnasio
 
 CREATE OR ALTER PROCEDURE insertar_sede (
 	@nomSede VARCHAR(45), @provincia VARCHAR(45), @canton VARCHAR(45), @email VARCHAR(45), @telefono1 VARCHAR(45), @telefono2 VARCHAR(45), @idGymnasio VARCHAR(45)
@@ -368,13 +367,12 @@ BEGIN
 END
 
 --Insertar Sede--
+SELECT * FROM TGymnasio
 
-EXEC insertar_sede 'Sede central', 'San jose', '
+EXEC insertar_sede 'Sede central', 'San jose', 'San Jose', 'arrozconmango@gmail.com', '89676545', '89348765', 'Al -224-Gen'
+
 
 SELECT * FROM TSede 
---Insertar Instructor--
---idInstructor, idPersona, idPago, idSede
-CREATE OR ALTER PROCEDURE(
 	
 
 --Insertar cliente--
