@@ -325,8 +325,6 @@ END
 
 --Insertar Sede--
 EXEC insertar_sede 'Sede central', 'San jose', 'San Jose', 'arrozconmango@gmail.com', '89676545', '89348765', 'Al -224-Gen'
-
-SELECT * FROM TSede 
 	
 --Insertar cliente--
 CREATE OR ALTER PROCEDURE insertar_cliente (
@@ -459,28 +457,4 @@ BEGIN
 END
 
 SELECT dbo.fn_vasos_agua(70)
-
-CREATE OR ALTER FUNCTION fn_cant_proteina (
-	
-)
-
-CREATE PROCEDURE dbo.pa_obtener_medidas_ideales( @idMedicion )
-AS
-BEGIN
-	SELECT Sexo = 'M' FROM TCliente AS C 
-	INNER JOIN
-	TExpediente AS E 
-	ON C.idCliente = E.idCliente
-
-
-
-TMediciones(
-			idMedicion int not null PRIMARY KEY,
-			fecha date,
-			hora time,
-			peso float,
-			porcentajeGrasa float,
-			porcentajeGViceral float,
-			IMC float
-			)
 
