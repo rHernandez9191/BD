@@ -249,7 +249,7 @@ CREATE TABLE PersonaXCliente(
 
 -- Insertar persona ---
 CREATE OR ALTER PROCEDURE insertar_persona (
-	 @nombre varchar(45), @cedula varchar(45), @fechaNacimiento DATE, @email varchar(45), @telefono int )
+	 @nombre varchar(45), @cedula varchar(45), @fechaNacimiento DATE, @email varchar(45), @telefono VARCHAR(45) )
 AS
 BEGIN
 	DECLARE @idPersona VARCHAR(45)
@@ -258,17 +258,19 @@ BEGIN
 END
 
 --Ingresar 10 personas -- 
-EXEC insertar_persona 'Juan', '118390739', '09-03-2002', 'juan.segura@gmail.com', 22440987
-EXEC insertar_persona 'Pedro', '236547865', '12-12-2005', 'pedro.lalo@hotmail.com', 87654322
-EXEC insertar_persona 'Alejandro', '22445678', '01-11-1998', 'papasconatun@gmail.com', 98765678
-EXEC insertar_persona 'Giuliana', '125433456', '05-05-1988', 'peinadoazul@yahoo.com', 76678558
-EXEC insertar_persona 'Lucia', '238777654', '30-12-1995', 'luciamesen@gmail.com', 90908776
-EXEC insertar_persona 'Lucia Ramirez', '238777654', '1995-12-30', 'luciaramirez@example.com', 90908776;
-EXEC insertar_persona 'Juan Pérez', '564321987', '1988-06-15', 'juanperez@example.com', 12345678;
-EXEC insertar_persona 'María González', '789654123', '1990-03-05', 'maria.gonzalez@example.com', 98765432;
-EXEC insertar_persona 'Pedro Martínez', '112233445', '1985-09-18', 'pedromartinez@example.com', 55556666;
-EXEC insertar_persona 'Ana López', '777888999', '1977-07-22', 'ana.lopez@example.com', 99998888;
-EXEC insertar_persona 'Carlos Fernandez', '456789012', '2000-04-10', 'carlosfernandez@example.com', 11112222;
+EXEC insertar_persona 'Juan', '118390739', '09-03-2002', 'juan.segura@gmail.com', '22440987'
+EXEC insertar_persona 'Pedro', '236547865', '12-12-2005', 'pedro.lalo@hotmail.com', '87654322'
+EXEC insertar_persona 'Alejandro', '22445678', '01-11-1998', 'papasconatun@gmail.com', '98765678'
+EXEC insertar_persona 'Giuliana', '125433456', '05-05-1988', 'peinadoazul@yahoo.com', '76678558'
+EXEC insertar_persona 'Lucia', '238777654', '30-12-1995', 'luciamesen@gmail.com', '90908776'
+EXEC insertar_persona 'Lucia Ramirez', '238777654', '1995-12-30', 'luciaramirez@example.com', '90908776+';
+EXEC insertar_persona 'Juan Pérez', '564321987', '1988-06-15', 'juanperez@example.com', '12345678';
+EXEC insertar_persona 'María González', '789654123', '1990-03-05', 'maria.gonzalez@example.com', '98765432';
+EXEC insertar_persona 'Pedro Martínez', '112233445', '1985-09-18', 'pedromartinez@example.com', '55556666';
+EXEC insertar_persona 'Ana López', '777888999', '1977-07-22', 'ana.lopez@example.com', '99998888';
+EXEC insertar_persona 'Carlos Fernandez', '456789012', '2000-04-10', 'carlosfernandez@example.com', '11112222';
+
+SELECT * FROM TPersona
 
 --Insertar pago--
 CREATE OR ALTER PROCEDURE insertar_pago (
