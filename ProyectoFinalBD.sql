@@ -248,7 +248,6 @@ CREATE TABLE PersonaXCliente(
 			REFERENCES TCliente(idCliente) )
 
 -- Insertar persona ---
-
 CREATE OR ALTER PROCEDURE insertar_persona (
 	 @nombre varchar(45), @cedula varchar(45), @fechaNacimiento DATE, @email varchar(45), @telefono int )
 AS
@@ -259,7 +258,6 @@ BEGIN
 END
 
 --Ingresar 10 personas -- 
-
 EXEC insertar_persona 'Juan', '118390739', '09-03-2002', 'juan.segura@gmail.com', 22440987
 EXEC insertar_persona 'Pedro', '236547865', '12-12-2005', 'pedro.lalo@hotmail.com', 87654322
 EXEC insertar_persona 'Alejandro', '22445678', '01-11-1998', 'papasconatun@gmail.com', 98765678
@@ -271,6 +269,8 @@ EXEC insertar_persona 'María González', '789654123', '1990-03-05', 'maria.gonzal
 EXEC insertar_persona 'Pedro Martínez', '112233445', '1985-09-18', 'pedromartinez@example.com', 55556666;
 EXEC insertar_persona 'Ana López', '777888999', '1977-07-22', 'ana.lopez@example.com', 99998888;
 EXEC insertar_persona 'Carlos Fernandez', '456789012', '2000-04-10', 'carlosfernandez@example.com', 11112222;
+
+SELECT*FROM TPersona
 
 --Insertar pago--
 
