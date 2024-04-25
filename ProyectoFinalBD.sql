@@ -395,8 +395,6 @@ END
 --idInstructor, idPErsona, idPago, idSede--
 
 
-
-
 EXEC insertar_cliente 'Al-2244-11', 1.8, 'M', 'Si', 
 
 --Calcular IMC de una persona fn_calcular_imc--
@@ -411,7 +409,7 @@ BEGIN
    
     DECLARE @IMC float
 
-    SET @IMC = @peso / @estatura
+    SET @IMC = @peso /  POWER(@estatura, 2) 
 
     RETURN @IMC
 END
