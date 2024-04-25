@@ -351,13 +351,9 @@ RETURNS int
 AS
 BEGIN
     DECLARE @IMC float
-<<<<<<< HEAD
-    SET @IMC = @peso / @estatura
-=======
 
     SET @IMC = @peso /  POWER(@estatura, 2) 
 
->>>>>>> 1d3df67ac68abdacc71d3aebe5ddb4243d6f4249
     RETURN @IMC
 END
 
