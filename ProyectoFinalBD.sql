@@ -337,12 +337,6 @@ BEGIN
 END
 
 --Insertar cliente--
-<<<<<<< HEAD
-=======
---idInstructor, idPErsona, idPago, idSede--
-
-
->>>>>>> 1d3df67ac68abdacc71d3aebe5ddb4243d6f4249
 EXEC insertar_cliente 'Al-2244-11', 1.8, 'M', 'Si', 
 
 --Calcular IMC de una persona fn_calcular_imc--
