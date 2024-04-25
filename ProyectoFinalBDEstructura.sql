@@ -246,3 +246,15 @@ CREATE TABLE PersonaXCliente(
 			REFERENCES TPersona (idPersona),
 			CONSTRAINT PersonaXClienteC FOREIGN KEY (idCliente)
 			REFERENCES TCliente(idCliente) )
+
+SELECT * FROM TPersona
+SELECT * FROM TGymnasio
+SELECT * FROM TSede
+SELECT * FROM TPagos
+SELECT * FROM TInstructor
+SELECT * FROM TCertificaciones
+SELECT * FROM TUAdministrativo
+SELECT * FROM TMediciones
+SELECT * FROM TCliente
+SELECT * FROM TRutina
+SELECT * FROM TExpediente

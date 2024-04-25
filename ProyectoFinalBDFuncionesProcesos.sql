@@ -104,6 +104,6 @@ SELECT dbo.fn_vasos_agua(70)
 
 
 ------Vista de reporte de cliente------
-CREATE OR ALTER VIEW ReporteCliente
+CREATE OR ALTER VIEW ReporteCliente 
 
 -----Trigger Alto Riesgo-----
