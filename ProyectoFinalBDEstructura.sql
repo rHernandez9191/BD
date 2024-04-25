@@ -3,45 +3,45 @@ CREATE DATABASE ProyectoGymnasio
 USE ProyectoGymnasio
 
 CREATE TABLE TPersona(
-			idPersona VARCHAR(45) not null PRIMARY KEY,
+			idPersona INT IDENTITY(1,1) PRIMARY KEY,
 			nombre varchar(45),
-			cedula int,
+			cedula INT,
 			fechaNacimiento DATE,
 			email varchar(45),
 			telefono VARCHAR(45)
 			)
 
 CREATE TABLE TGymnasio (
-			idGymnasio VARCHAR(45) not null PRIMARY KEY,
+			idGymnasio INT IDENTITY(1,1) PRIMARY KEY,
 			marca VARCHAR(45) not null,
 			telefonoGeneral VARCHAR(45),
 			contacto VARCHAR(45)
 			)
 			
 CREATE TABLE TSede(
-			idSede VARCHAR(45) not null PRIMARY KEY,
+			idSede INT IDENTITY(1,1) PRIMARY KEY,
 			nomSede VARCHAR(45) not null,
 			provincia VARCHAR(45) not null,
 			canton VARCHAR(45) not null,
 			email VARCHAR(45) not null,
 			telefono1 VARCHAR(45) not null,
 			telefono2 VARCHAR(45) not null,
-			idGymnasio VARCHAR(45) not null
+			idGymnasio INT not null
 
 			CONSTRAINT FK_Gym FOREIGN KEY (idGymnasio)
 			REFERENCES TGymnasio(idGymnasio)
 			)
 
 CREATE TABLE TPagos(
-			idPago VARCHAR(45) not null PRIMARY KEY,
+			idPago INT IDENTITY(1,1) PRIMARY KEY,
 			rol VARCHAR(45) not null,
 			monto int not null)
 			
 CREATE TABLE TInstructor(
-			idInstructor VARCHAR(45) not null PRIMARY KEY,
-			idPersona VARCHAR(45),
-			idPago VARCHAR(45),
-			idSede VARCHAR(45)
+			idInstructor INT IDENTITY(1,1) PRIMARY KEY,
+			idPersona INT NOT NULL,
+			idPago INT NOT NULL,
+			idSede INT NOT NULL,
 			
 			CONSTRAINT FK_PERSONA FOREIGN  KEY (idPersona)
 			REFERENCES TPersona (idPersona),
@@ -54,18 +54,18 @@ CREATE TABLE TInstructor(
 			)
 
 CREATE TABLE TCertificaciones(
-			idCertificacion int not null PRIMARY KEY,
+			idCertificacion INT IDENTITY(1,1) PRIMARY KEY,
 			titulo varchar(45),
-			idInstructor VARCHAR(45) not null
+			idInstructor INT not null
 
 			CONSTRAINT FK_InstructCert FOREIGN KEY (idInstructor)
 			REFERENCES TInstructor(idInstructor)
 			)
 
 CREATE TABLE TUAdministrativo(
-			idUsuario int not null PRIMARY KEY,
-			idPersona VARCHAR(45) not null,
-			idPago VARCHAR(45) not null
+			idUsuario INT IDENTITY(1,1) PRIMARY KEY,
+			idPersona INT not null,
+			idPago INT not null
 
 			CONSTRAINT FK_PersonaAdmin FOREIGN  KEY (idPersona)
 			REFERENCES TPersona (idPersona),
@@ -75,22 +75,21 @@ CREATE TABLE TUAdministrativo(
 			)
 
 CREATE TABLE TMediciones(
-			idMedicion int not null PRIMARY KEY,
+			idMedicion INT IDENTITY(1,1) PRIMARY KEY,
 			fecha date,
 			hora time,
 			peso float,
 			porcentajeGrasa float,
 			porcentajeGViceral float,
-			IMC float
-			)
+			IMC float )
 
 CREATE TABLE TCliente(
-			idCliente VARCHAR(45) not null PRIMARY KEY,
-			idPersona VARCHAR(45) not null,
+			idCliente INT IDENTITY(1,1) PRIMARY KEY,
+			idPersona INT not null,
 			estatura float,
 			sexo varchar(1),
 			altoRiesgo varchar(2),
-			idInstructor VARCHAR(45) not null,
+			idInstructor INT not null,
 
 			CONSTRAINT FK_PersonaCliente FOREIGN KEY (idPersona)
 			REFERENCES TPersona (idPersona),
@@ -99,15 +98,15 @@ CREATE TABLE TCliente(
 			REFERENCES TInstructor(idInstructor) )
 
 CREATE TABLE TRutina(
-			idRutina int PRIMARY KEY,
+			idRutina INT IDENTITY(1,1) PRIMARY KEY,
 			ejercicion varchar(45),
 			repeticiones int )
 
 CREATE TABLE TExpediente(
-			idExpediente int PRIMARY KEY,
-			idCliente VARCHAR(45) not null,
-			idMedicion int,
-			idRutina int 
+			idExpediente INT IDENTITY(1,1) PRIMARY KEY,
+			idCliente INT not null,
+			idMedicion INT NOT NULL,
+			idRutina INT NOT NULL, 
 
 			CONSTRAINT FK_ExpedienteRutina FOREIGN KEY (idRutina)
 			REFERENCES TRutina (idRutina),
@@ -118,8 +117,8 @@ CREATE TABLE TExpediente(
 
 ----- INTERMEDIAS
 CREATE TABLE ExpedienteXCliente(
-			idExpediente int,
-			idCliente VARCHAR(45)
+			idExpediente INT IDENTITY(1,1),
+			idCliente INT NOT NULL,
 
 			CONSTRAINT PK_ExpedienteXCliente PRIMARY KEY(idExpediente, idCliente),
 			CONSTRAINT ExpeXcliente FOREIGN KEY (idExpediente)
@@ -128,8 +127,8 @@ CREATE TABLE ExpedienteXCliente(
 			REFERENCES TCliente (idCliente) )
 
 CREATE TABLE ExpedienteXMedicion(
-			idExpediente int,
-			idMedicion int
+			idExpediente INT IDENTITY(1,1),
+			idMedicion INT NOT NULL,
 
 			CONSTRAINT PK_ExpedienteXMedicion PRIMARY KEY(idExpediente, idMedicion),
 			CONSTRAINT ExpeMedicion FOREIGN KEY (idExpediente)
@@ -138,8 +137,8 @@ CREATE TABLE ExpedienteXMedicion(
 			REFERENCES TMediciones (idMedicion) )
 
 CREATE TABLE ExpedienteXRutina(
-			idExpediente int,
-			idRutina int
+			idExpediente INT IDENTITY(1,1),
+			idRutina INT, 
 
 			CONSTRAINT PK_ExpedienteXRutina PRIMARY KEY(idExpediente, idRutina),
 			CONSTRAINT ExpeRutina FOREIGN KEY (idExpediente)
@@ -148,8 +147,8 @@ CREATE TABLE ExpedienteXRutina(
 			REFERENCES TRutina (idRutina) )
 
 CREATE TABLE SedeXGymnasio(
-			idSede VARCHAR(45) not null,
-			idGymnasio VARCHAR(45) not null
+			idSede INT IDENTITY(1,1) not null,
+			idGymnasio INT not null
 
 			CONSTRAINT SedeXGym PRIMARY KEY (idSede, idGymnasio),
 			CONSTRAINT FK_SedeXGymS FOREIGN KEY (idSede)
@@ -158,8 +157,8 @@ CREATE TABLE SedeXGymnasio(
 			REFERENCES TGymnasio (idGymnasio) )
 
 CREATE TABLE PagoXInstructor(
-			idPago VARCHAR(45) not null,
-			idInstructor VARCHAR(45) not null
+			idPago INT IDENTITY(1,1),
+			idInstructor INT not null
 
 			CONSTRAINT PagoXinstruc PRIMARY KEY(idPago, idInstructor),
 			CONSTRAINT FK_PagoXInstrucP FOREIGN KEY (idPago)
@@ -168,8 +167,8 @@ CREATE TABLE PagoXInstructor(
 			REFERENCES TInstructor (idInstructor) )
 
 CREATE TABLE CertificacionXInstructor(
-			idCertificacion int not null,
-			idInstructor VARCHAR(45) not null
+			idCertificacion INT IDENTITY(1,1),
+			idInstructor INT not null
 
 			CONSTRAINT PagoXInstructorCI PRIMARY KEY(idCertificacion, idInstructor)
 			CONSTRAINT FK_CertiXInstrucCer FOREIGN KEY (idCertificacion)
@@ -178,8 +177,8 @@ CREATE TABLE CertificacionXInstructor(
 			REFERENCES TInstructor (idInstructor) )
 
 CREATE TABLE InstructorXSede(
-			idInstructor VARCHAR(45) not null,
-			idSede VARCHAR(45) not null
+			idInstructor INT IDENTITY(1,1),
+			idSede INT not null
 
 			CONSTRAINT InstructXSede PRIMARY KEY(idInstructor, idSede),
 			CONSTRAINT FK_InstructorXSedeIns FOREIGN KEY (idInstructor)
@@ -188,8 +187,8 @@ CREATE TABLE InstructorXSede(
 			REFERENCES TSede (idSede) )
 
 CREATE TABLE PagoXUAdmin(
-			idPago VARCHAR(45) not null,
-			idUsuario int not null
+			idPago INT IDENTITY(1,1),
+			idUsuario INT not null
 
 			CONSTRAINT PagoXAdmin PRIMARY KEY(idPago, idUsuario),
 			CONSTRAINT FK_PagoXUAdminU FOREIGN KEY (idUsuario)
@@ -198,8 +197,8 @@ CREATE TABLE PagoXUAdmin(
 			REFERENCES TPagos (idPago) )
 
 CREATE TABLE ClienteXMedicion(
-			idCliente VARCHAR(45) not null,
-			idMedicion int not null,
+			idCliente INT IDENTITY(1,1),
+			idMedicion INT not null,
 
 			CONSTRAINT ClienteXMedicionCM PRIMARY KEY(idCliente, idMedicion),
 			CONSTRAINT ClienteXMedicionC FOREIGN KEY (idCliente)
@@ -208,8 +207,8 @@ CREATE TABLE ClienteXMedicion(
 			REFERENCES TMediciones (idMedicion) )
 
 CREATE TABLE ClienteXInstructor(
-			idCliente VARCHAR(45) not null,
-			idInstructor VARCHAR(45) not null
+			idCliente INT IDENTITY(1,1),
+			idInstructor INT not null,
 
 			CONSTRAINT ClienteXInstructorCI PRIMARY KEY (idCliente, idInstructor),
 			CONSTRAINT ClienteXInstructorC FOREIGN KEY(idCliente)
@@ -218,8 +217,8 @@ CREATE TABLE ClienteXInstructor(
 			REFERENCES TInstructor(idInstructor) )
 
 CREATE TABLE PersonaXInstructor(
-			idPersona VARCHAR(45) not null,
-			idInstructor VARCHAR(45) not null
+			idPersona INT IDENTITY(1,1),
+			idInstructor INT not null
 
 			CONSTRAINT PersonaXInstructorIP PRIMARY KEY (idPersona, idInstructor),
 			CONSTRAINT PersonaXInstructorP FOREIGN KEY(idPersona)
@@ -228,8 +227,8 @@ CREATE TABLE PersonaXInstructor(
 			REFERENCES TInstructor(idInstructor) )
 
 CREATE TABLE PersonaXUAdmin(
-			idPersona VARCHAR(45) not null,
-			idUsuario int not null
+			idPersona INT IDENTITY(1,1),
+			idUsuario INT not null
 
 			CONSTRAINT PersonaXAdmin PRIMARY KEY (idPersona, idUsuario),
 			CONSTRAINT PersonaXAdminP FOREIGN KEY(idPersona)
@@ -238,8 +237,8 @@ CREATE TABLE PersonaXUAdmin(
 			REFERENCES TUAdministrativo(idUsuario) )
 
 CREATE TABLE PersonaXCliente(
-			idPersona VARCHAR(45) not null,
-			idCliente VARCHAR(45) not null
+			idPersona INT IDENTITY(1,1),
+			idCliente INT not null
 
 			CONSTRAINT PersonaXClientePC PRIMARY KEY (idPersona, idCliente),
 			CONSTRAINT PersonaXClienteP FOREIGN KEY(idPersona)
@@ -247,14 +246,3 @@ CREATE TABLE PersonaXCliente(
 			CONSTRAINT PersonaXClienteC FOREIGN KEY (idCliente)
 			REFERENCES TCliente(idCliente) )
 
-SELECT * FROM TPersona
-SELECT * FROM TGymnasio
-SELECT * FROM TSede
-SELECT * FROM TPagos
-SELECT * FROM TInstructor
-SELECT * FROM TCertificaciones
-SELECT * FROM TUAdministrativo
-SELECT * FROM TMediciones
-SELECT * FROM TCliente
-SELECT * FROM TRutina
-SELECT * FROM TExpediente
