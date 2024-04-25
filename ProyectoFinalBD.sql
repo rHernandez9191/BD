@@ -319,6 +319,8 @@ END
 --Insertar Sede--
 EXEC insertar_sede 'Sede central', 'San jose', 'San Jose', 'arrozconmango@gmail.com', '89676545', '89348765', 'Al -224-Gen'
 	
+-------AQUI HAY QUE HACER EL INSERT INSTRUCTOR--------------
+
 --Insertar cliente--
 CREATE OR ALTER PROCEDURE insertar_cliente (
 	@idPersona VARCHAR(45), @estatura FLOAT, @sexo VARCHAR(1), @altoRiesgo VARCHAR(2), @idInstructor VARCHAR(45))
@@ -330,7 +332,7 @@ BEGIN
 END
 
 --Insertar cliente--
-EXEC insertar_cliente 'Al-2244-11', 1.8, 'M', 'Si', 
+EXEC insertar_cliente 'Al-2244-11', 1.8, 'M', 'Si'
 
 --Calcular IMC de una persona fn_calcular_imc--
 CREATE FUNCTION fn_calcular_imc ( @estatura float, @peso float )
