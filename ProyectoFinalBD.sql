@@ -402,7 +402,7 @@ RETURNS INT
 AS
 BEGIN
 	DECLARE @fechaEntero INT;
-	DECLARE @fheca INT
+	DECLARE @fecHa INT
 	DECLARE @resultado INT
 	
 	SET @fechaEntero = CONVERT(INT, YEAR(@fechaNacimiento));
