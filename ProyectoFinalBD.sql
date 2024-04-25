@@ -284,8 +284,6 @@ END
 
 --Insertar pago--
 EXEC insertar_pago 'Entrenador', 100000
-EXEC insertar_pago 'Administrativo', 300000
-EXEC insertar_pago 'Entrenador', 400000
 EXEC insertar_pago 'Limpieza', 350000
 EXEC insertar_pago 'Administrativo', 500000
 EXEC insertar_pago 'Gerente', 450000
