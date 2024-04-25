@@ -270,10 +270,7 @@ EXEC insertar_persona 'Pedro Martínez', '112233445', '1985-09-18', 'pedromartine
 EXEC insertar_persona 'Ana López', '777888999', '1977-07-22', 'ana.lopez@example.com', 99998888;
 EXEC insertar_persona 'Carlos Fernandez', '456789012', '2000-04-10', 'carlosfernandez@example.com', 11112222;
 
-SELECT*FROM TPersona
-
 --Insertar pago--
-
 CREATE OR ALTER PROCEDURE insertar_pago (
 	@rol VARCHAR(45), @monto INT )
 AS
@@ -284,7 +281,6 @@ BEGIN
 END
 
 --Insertar pago--
-
 EXEC insertar_pago 'Entrenador', 100000
 EXEC insertar_pago 'Administrativo', 300000
 EXEC insertar_pago 'Entrenador', 400000
@@ -294,7 +290,6 @@ EXEC insertar_pago 'Gerente', 450000
 EXEC insertar_pago 'Cajero', 2500000
 
 --insertar Gymnasio--
-
 CREATE OR ALTER PROCEDURE insertar_gymnasio (
 	@marca VARCHAR(45), @telefonoGeneral VARCHAR(45), @contacto VARCHAR(45) )
 AS
@@ -305,7 +300,6 @@ BEGIN
 END
 
 --Insertar Gymnasio--
-
 EXEC insertar_gymnasio 'Strong Fit', '22409897', 'Giuliana Mesen'
 EXEC insertar_gymnasio 'Gym Shark', '21225654', 'Rigoberto Loria'
 EXEC insertar_gymnasio 'Tecno Gym', '22449090', 'Silvia Asofeifa'
@@ -313,7 +307,6 @@ EXEC insertar_gymnasio 'Al Trote', '22418089', 'Genesis Villaran'
 EXEC insertar_gymnasio 'Gimnasio activo', '21213434', 'Pablo Madrid'
 
 --Insertar sede--
-
 CREATE OR ALTER PROCEDURE insertar_sede (
 	@nomSede VARCHAR(45), @provincia VARCHAR(45), @canton VARCHAR(45), @email VARCHAR(45), @telefono1 VARCHAR(45), @telefono2 VARCHAR(45), @idGymnasio VARCHAR(45) )
 AS
@@ -345,9 +338,7 @@ RETURNS int
 AS
 BEGIN
     DECLARE @IMC float
-
     SET @IMC = @peso /  POWER(@estatura, 2) 
-
     RETURN @IMC
 END
 
@@ -355,13 +346,10 @@ END
 SELECT dbo.fn_calcular_imc(5.2,10) AS Resultado
 
 --Clasificar IMC--
-CREATE or ALTER FUNCTION fn_clasificar_imc ( @IMC FLOAT
-
-)
+CREATE or ALTER FUNCTION fn_clasificar_imc ( @IMC FLOAT )
 RETURNS VARCHAR(45)
 AS
 BEGIN
-	
 	DECLARE @RESULTADO AS VARCHAR(45)
 
 	IF @IMC < 18.5 BEGIN
@@ -401,14 +389,10 @@ BEGIN
 	RETURN @RESULTADO
 END
 
-Select CONVERT(date, GETDATE()) AS FechaActual
-
 --Ejecucion fn_clasificar_imc--
-
 SELECT dbo.fn_clasificar_imc(35) AS Resultado
 
 -- Calcular la edad --
-
 CREATE OR ALTER FUNCTION fn_edad (
 	@fechaNacimiento DATE
 )
