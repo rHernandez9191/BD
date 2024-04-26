@@ -1,6 +1,7 @@
 USE ProyectoGymnasio
-
------INSERTS------------------
+-----------------------------------------------------------------------------
+-----------------------------------INSERTS-----------------------------------
+-----------------------------------------------------------------------------
 
 -- Insertar persona ---
 CREATE OR ALTER PROCEDURE insertar_persona (
@@ -118,8 +119,26 @@ END
 ----Insertar mediciones----
 EXEC insertar_mediciones '2024-12-30', '12:50:01', 70, 25, 15, 20
 
+----Insertar rutina----
 
+CREATE OR ALTER PROCEDURE insertar_rutina (@ejercicion VARCHAR(45), @repeticiones INT)
+AS
+BEGIN
+	INSERT INTO TRutina VALUES(@ejercicion, @repeticiones)
+END
 
+----Insertar rutina----
+EXEC insertar_rutina 'Sentadillas', 12
+
+----Insertar expediente----
+CREATE OR ALTER PROCEDURE insertar_expediente (@idCliente INT, @idMedicion INT, @idRutina INT)
+AS
+BEGIN
+	INSERT INTO TExpediente VALUES(@idCliente, @idMedicion, @idRutina)
+END
+
+----Insertar expediente----
+EXEC insertar_expediente 3, 1, 1
 
 
 
