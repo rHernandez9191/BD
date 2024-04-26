@@ -11,8 +11,6 @@ BEGIN
 	INSERT INTO TPersona VALUES(@nombre, @cedula, @fechaNacimiento, @email, @telefono)
 END
 
-/**/
-
 --Ingresar 10 personas -- 
 EXEC insertar_persona 'Juan', 118390739, '2002-02-02', 'juan.segura@gmail.com', '22440987'
 EXEC insertar_persona 'Pedro', 236547865, '2005-05-30', 'pedro.lalo@hotmail.com', '87654322'
@@ -41,6 +39,10 @@ EXEC insertar_pago 'Administrativo', 500000
 EXEC insertar_pago 'Gerente', 450000
 EXEC insertar_pago 'Cajero', 2500000
 EXEC insertar_pago 'Entrenador', 200000
+EXEC insertar_pago 'Nutricionista', 150000;
+EXEC insertar_pago 'Fisioterapeuta', 180000;
+EXEC insertar_pago 'Masajista', 100000;
+EXEC insertar_pago 'Preparador Físico', 220000;
 
 
 --insertar Gymnasio--
@@ -57,7 +59,13 @@ EXEC insertar_gymnasio 'Gym Shark', '21225654', 'Rigoberto Loria'
 EXEC insertar_gymnasio 'Tecno Gym', '22449090', 'Silvia Asofeifa'
 EXEC insertar_gymnasio 'Al Trote', '22418089', 'Genesis Villaran'
 EXEC insertar_gymnasio 'Gimnasio activo', '21213434', 'Pablo Madrid'
+EXEC insertar_gymnasio 'Gimnasio Fitness Club', '12345678', 'Laura García';
+EXEC insertar_gymnasio 'BodyTech', '98765432', 'Juan Pérez';
+EXEC insertar_gymnasio 'Gimnasio Wellness', '87654321', 'María Martínez';
+EXEC insertar_gymnasio 'GymXtreme', '56781234', 'Carlos Rodríguez';
+EXEC insertar_gymnasio 'Gimnasio PowerFit', '34567890', 'Ana Gómez';
 
+select * from TGymnasio
 --Insertar sede--
 CREATE OR ALTER PROCEDURE insertar_sede (
 	@nomSede VARCHAR(45), @provincia VARCHAR(45), @canton VARCHAR(45), @email VARCHAR(45), @telefono1 VARCHAR(45), @telefono2 VARCHAR(45), @idGymnasio INT )
@@ -68,6 +76,15 @@ END
 
 --Insertar Sede--
 EXEC insertar_sede 'Sede central', 'San jose', 'San Jose', 'arrozconmango@gmail.com', '89676545', '89348765', 1
+EXEC insertar_sede 'Sede norte', 'Alajuela', 'Alajuela', 'contacto_norte@gmail.com', '76543210', '98765432', 3;
+EXEC insertar_sede 'Sede sur', 'Puntarenas', 'Puntarenas', 'contacto_sur@gmail.com', '87654321', '67890123', 5;
+EXEC insertar_sede 'Sede este', 'Limón', 'Limón', 'contacto_este@gmail.com', '65432109', '56789012', 8;
+EXEC insertar_sede 'Sede oeste', 'Guanacaste', 'Liberia', 'contacto_oeste@gmail.com', '54321098', '45678901', 2;
+EXEC insertar_sede 'Sede central 2', 'San José', 'San José', 'contacto_central2@gmail.com', '43210987', '34567890', 4;
+EXEC insertar_sede 'Sede pacífico', 'Puntarenas', 'Golfito', 'contacto_pacifico@gmail.com', '32109876', '23456789', 7;
+EXEC insertar_sede 'Sede montaña', 'Cartago', 'Cartago', 'contacto_montaña@gmail.com', '21098765', '12345678', 6;
+EXEC insertar_sede 'Sede caribe', 'Limón', 'Limón', 'contacto_caribe@gmail.com', '10987654', '01234567', 9;
+EXEC insertar_sede 'Sede metropolitana', 'San José', 'Desamparados', 'contacto_metropolitana@gmail.com', '09876543', '90123456', 10;
 	
 ----Insertar instructor----
 CREATE OR ALTER PROCEDURE insertar_instructor(@idPersona INT, @idPago INT, @idSede INT)
@@ -77,7 +94,16 @@ BEGIN
 END
 ----Insertar instructor----
 EXEC insertar_instructor 22, 2, 1
-
+EXEC insertar_instructor 25, 3, 2;
+EXEC insertar_instructor 31, 4, 3;
+EXEC insertar_instructor 38, 5, 4;
+EXEC insertar_instructor 26, 2, 5;
+EXEC insertar_instructor 29, 3, 6;
+EXEC insertar_instructor 35, 4, 7;
+EXEC insertar_instructor 40, 5, 8;
+EXEC insertar_instructor 24, 2, 9;
+EXEC insertar_instructor 37, 3, 10;
+select * from TInstructor
 --Insertar cliente--
 CREATE OR ALTER PROCEDURE insertar_cliente (
 	@idPersona INT, @estatura FLOAT, @sexo VARCHAR(1), @altoRiesgo VARCHAR(2), @idInstructor INT)
@@ -87,7 +113,17 @@ BEGIN
 END
 
 --Insertar cliente--
-EXEC insertar_cliente 26, 1.8, 'M', 'Si', 1
+EXEC insertar_cliente 21, 1.8, 'M', 'Si', 1
+EXEC insertar_cliente 23, 1.75, 'M', 'No', 2;
+EXEC insertar_cliente 27, 1.65, 'F', 'Si', 3;
+EXEC insertar_cliente 28, 1.70, 'M', 'No', 4;
+EXEC insertar_cliente 30, 1.60, 'F', 'Si', 5;
+EXEC insertar_cliente 32, 1.80, 'M', 'No', 6;
+EXEC insertar_cliente 33, 1.55, 'F', 'Si', 7;
+EXEC insertar_cliente 34, 1.68, 'M', 'No', 8;
+EXEC insertar_cliente 36, 1.72, 'F', 'Si', 9;
+EXEC insertar_cliente 39, 1.77, 'M', 'No', 10;
+EXEC insertar_cliente 41, 1.62, 'F', 'Si', 11;
 
 ----Insertar certificaciones----
 CREATE OR ALTER PROCEDURE insertar_certificaciones (@titulo VARCHAR(45), @idInstructor INT)
@@ -98,6 +134,14 @@ END
 
 ----Insertar certificaciones----
 EXEC insertar_certificaciones 'Entrenador personal', 1
+EXEC insertar_certificaciones 'Entrenador personal', 2;
+EXEC insertar_certificaciones 'Entrenador personal', 4;
+EXEC insertar_certificaciones 'Gerente', 5;
+EXEC insertar_certificaciones 'Cajero', 6;
+EXEC insertar_certificaciones 'Entrenador personal', 7;
+EXEC insertar_certificaciones 'Administrativo', 8;
+EXEC insertar_certificaciones 'Cajero', 9;
+EXEC insertar_certificaciones 'Nutricionista', 10;
 
 ----Insertar UAdministrativo----
 CREATE OR ALTER PROCEDURE insertar_UAdministrativo(@idPersona INT, @idPago INT)
@@ -118,6 +162,21 @@ END
 
 ----Insertar mediciones----
 EXEC insertar_mediciones '2024-12-30', '12:50:01', 70, 25, 15, 20
+EXEC insertar_mediciones '2024-12-31', '10:30:15', 72, 24, 14, 21;
+EXEC insertar_mediciones '2024-12-30', '11:20:30', 68, 26, 16, 19;
+EXEC insertar_mediciones '2024-12-29', '14:15:45', 75, 23, 13, 22;
+EXEC insertar_mediciones '2024-12-28', '13:40:20', 69, 27, 17, 18;
+EXEC insertar_mediciones '2024-12-27', '09:45:55', 71, 25, 15, 20;
+EXEC insertar_mediciones '2024-12-26', '16:55:10', 73, 22, 12, 23;
+EXEC insertar_mediciones '2024-12-25', '08:10:25', 67, 28, 18, 17;
+EXEC insertar_mediciones '2024-12-24', '17:25:40', 74, 21, 11, 24;
+EXEC insertar_mediciones '2024-12-23', '09:30:55', 70, 26, 16, 19;
+EXEC insertar_mediciones '2024-12-22', '12:45:10', 76, 20, 10, 25;
+EXEC insertar_mediciones '2024-12-21', '15:00:25', 68, 27, 17, 18;
+EXEC insertar_mediciones '2024-12-20', '10:15:40', 72, 24, 14, 21;
+EXEC insertar_mediciones '2024-12-19', '13:30:55', 66, 28, 18, 17;
+EXEC insertar_mediciones '2024-12-18', '11:45:10', 70, 25, 15, 20;
+EXEC insertar_mediciones '2024-12-17', '14:00:25', 77, 19, 9, 26;
 
 ----Insertar rutina----
 
@@ -129,6 +188,26 @@ END
 
 ----Insertar rutina----
 EXEC insertar_rutina 'Sentadillas', 12
+EXEC insertar_rutina 'Flexiones de brazos', 15;
+EXEC insertar_rutina 'Plancha abdominal', 30;
+EXEC insertar_rutina 'Dominadas', 8;
+EXEC insertar_rutina 'Curl de bíceps', 12;
+EXEC insertar_rutina 'Fondos en paralelas', 10;
+EXEC insertar_rutina 'Mountain climbers', 20;
+EXEC insertar_rutina 'Elevación de piernas', 15;
+EXEC insertar_rutina 'Press militar', 10;
+EXEC insertar_rutina 'Burpees', 20;
+EXEC insertar_rutina 'Zancadas', 12;
+EXEC insertar_rutina 'Crunches', 25;
+EXEC insertar_rutina 'Remo con barra', 12;
+EXEC insertar_rutina 'Peso muerto', 8;
+EXEC insertar_rutina 'Hip thrust', 12;
+EXEC insertar_rutina 'Prensa de piernas', 15;
+EXEC insertar_rutina 'Elevación lateral de hombros', 12;
+EXEC insertar_rutina 'Sentadilla sumo', 10;
+EXEC insertar_rutina 'Elevación de talones', 20;
+EXEC insertar_rutina 'Plancha lateral', 30;
+EXEC insertar_rutina 'Escalador', 20;
 
 ----Insertar expediente----
 CREATE OR ALTER PROCEDURE insertar_expediente (@idCliente INT, @idMedicion INT, @idRutina INT)
