@@ -110,9 +110,7 @@ CREATE TABLE TExpediente(
 			idExpediente INT IDENTITY(1,1) PRIMARY KEY,
 			idCliente INT not null,
 			idMedicion INT NOT NULL,
-			 
-
-
+			
 			CONSTRAINT FK_ExpedienteCli FOREIGN KEY (idCliente)
 			REFERENCES TCliente(idCliente),
 			CONSTRAINT FK_ExpedienteMedi FOREIGN KEY (idMedicion)
