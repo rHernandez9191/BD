@@ -97,7 +97,7 @@ EXEC insertar_instructor 2, 3, 2;
 EXEC insertar_instructor 3, 4, 3;
 EXEC insertar_instructor 4, 5, 4;
 EXEC insertar_instructor 5, 2, 5;
-
+SELECT * FROM TInstructor
 --Insertar cliente--
 CREATE OR ALTER PROCEDURE insertar_cliente (
 	@idPersona INT, @estatura FLOAT, @sexo VARCHAR(1), @altoRiesgo VARCHAR(2), @idInstructor INT)
@@ -107,11 +107,11 @@ BEGIN
 END
 
 --Insertar cliente--
-EXEC insertar_cliente 6, 1.8, 'M', 'Si', 11
-EXEC insertar_cliente 7, 1.75, 'M', 'No', 12;
-EXEC insertar_cliente 8, 1.65, 'F', 'Si', 13;
-EXEC insertar_cliente 9, 1.70, 'M', 'No', 14;
-EXEC insertar_cliente 10, 1.60, 'F', 'Si', 15;
+EXEC insertar_cliente 6, 1.8, 'M', 'Si', 1
+EXEC insertar_cliente 7, 1.75, 'M', 'No', 2;
+EXEC insertar_cliente 8, 1.65, 'F', 'Si', 3;
+EXEC insertar_cliente 9, 1.70, 'M', 'No', 4;
+EXEC insertar_cliente 10, 1.60, 'F', 'Si', 5;
 
 ----Insertar certificaciones----
 CREATE OR ALTER PROCEDURE insertar_certificaciones (@titulo VARCHAR(45), @idInstructor INT)
@@ -119,13 +119,13 @@ AS
 BEGIN
 	INSERT INTO TCertificaciones VALUES (@titulo, @idInstructor)
 END
-SELECT * FROM TInstructor
+
 ----Insertar certificaciones----
-EXEC insertar_certificaciones 'Entrenador personal', 11
-EXEC insertar_certificaciones 'Entrenador personal', 12;
-EXEC insertar_certificaciones 'Entrenador personal', 13;
-EXEC insertar_certificaciones 'Gerente', 14;
-EXEC insertar_certificaciones 'Cajero', 15;
+EXEC insertar_certificaciones 'Entrenador personal', 1
+EXEC insertar_certificaciones 'Entrenador personal', 2;
+EXEC insertar_certificaciones 'Entrenador personal', 3;
+EXEC insertar_certificaciones 'Gerente', 4;
+EXEC insertar_certificaciones 'Cajero', 5;
 
 ----Insertar UAdministrativo----
 CREATE OR ALTER PROCEDURE insertar_UAdministrativo(@idPersona INT, @idPago INT)
@@ -138,53 +138,45 @@ END
 EXEC insertar_UAdministrativo 24, 3
 
 ----Insertar mediciones----
-CREATE OR ALTER PROCEDURE insertar_mediciones(@fecha DATE, @hora TIME, @peso FLOAT, @porcentajeGrasa FLOAT, @porcentajeGViceral FLOAT, @IMC FLOAT)
+CREATE OR ALTER PROCEDURE insertar_mediciones(@fecha DATE, @hora TIME, @peso FLOAT, @porcentajeGrasa FLOAT, @porcentajeGViceral FLOAT, @IMC FLOAT, @idCliente INT)
 AS
 BEGIN
-	INSERT INTO TMediciones VALUES(@fecha, @hora, @peso, @porcentajeGrasa, @porcentajeGViceral,@IMC)
+	INSERT INTO TMediciones VALUES(@fecha, @hora, @peso, @porcentajeGrasa, @porcentajeGViceral,@IMC, @idCliente)
 END
 
 ----Insertar mediciones----
-EXEC insertar_mediciones '2024-12-30', '12:50:01', 70, 25, 15, 20
-EXEC insertar_mediciones '2024-12-31', '10:30:15', 72, 24, 14, 21;
-EXEC insertar_mediciones '2024-12-30', '11:20:30', 68, 26, 16, 19;
-EXEC insertar_mediciones '2024-12-29', '14:15:45', 75, 23, 13, 22;
-EXEC insertar_mediciones '2024-12-28', '13:40:20', 69, 27, 17, 18;
-EXEC insertar_mediciones '2024-12-27', '09:45:55', 71, 25, 15, 20;
-EXEC insertar_mediciones '2024-12-26', '16:55:10', 73, 22, 12, 23;
-EXEC insertar_mediciones '2024-12-25', '08:10:25', 67, 28, 18, 17;
-EXEC insertar_mediciones '2024-12-24', '17:25:40', 74, 21, 11, 24;
-EXEC insertar_mediciones '2024-12-23', '09:30:55', 70, 26, 16, 19;
-EXEC insertar_mediciones '2024-12-22', '12:45:10', 76, 20, 10, 25;
-EXEC insertar_mediciones '2024-12-21', '15:00:25', 68, 27, 17, 18;
-EXEC insertar_mediciones '2024-12-20', '10:15:40', 72, 24, 14, 21;
-EXEC insertar_mediciones '2024-12-19', '13:30:55', 66, 28, 18, 17;
-EXEC insertar_mediciones '2024-12-18', '11:45:10', 70, 25, 15, 20;
-EXEC insertar_mediciones '2024-12-17', '14:00:25', 77, 19, 9, 26;
+EXEC insertar_mediciones '2024-10-30', '12:50:01', 70, 25, 15, 20, 6
+EXEC insertar_mediciones '2024-09-30', '10:30:15', 72, 24, 14, 21, 7;
+EXEC insertar_mediciones '2024-01-30', '11:20:30', 68, 26, 16, 19, 8;
+EXEC insertar_mediciones '2024-12-29', '14:15:45', 75, 23, 13, 22, 9;
+EXEC insertar_mediciones '2024-05-28', '13:40:20', 69, 27, 17, 18, 10;
+EXEC insertar_mediciones '2024-07-27', '09:45:55', 71, 25, 15, 20, 6;
+EXEC insertar_mediciones '2024-11-26', '16:55:10', 73, 22, 12, 23, 7;
+EXEC insertar_mediciones '2024-02-25', '08:10:25', 67, 28, 18, 17, 8;
+EXEC insertar_mediciones '2024-08-24', '17:25:40', 74, 21, 11, 24, 9;
+EXEC insertar_mediciones '2024-12-23', '09:30:55', 70, 26, 16, 19, 10;
+EXEC insertar_mediciones '2024-10-22', '12:45:10', 76, 20, 10, 25, 6;
+EXEC insertar_mediciones '2024-02-21', '15:00:25', 68, 27, 17, 18, 7;
+EXEC insertar_mediciones '2024-04-20', '10:15:40', 72, 24, 14, 21, 8;
+EXEC insertar_mediciones '2024-09-19', '13:30:55', 66, 28, 18, 17, 9;
+EXEC insertar_mediciones '2024-07-18', '11:45:10', 70, 25, 15, 20, 10;
+EXEC insertar_mediciones '2024-12-17', '14:00:25', 77, 19, 9, 26, 6;
 
 ----Insertar expediente----
-CREATE OR ALTER PROCEDURE insertar_expediente (@idCliente INT, @idMedicion INT)
+CREATE OR ALTER PROCEDURE insertar_expediente (@idCliente INT)
 AS
 BEGIN
-	INSERT INTO TExpediente VALUES(@idCliente, @idMedicion)
+	INSERT INTO TExpediente VALUES(@idCliente)
 END
 
 ----Insertar expediente----
-EXEC insertar_expediente 6, 1
-EXEC insertar_expediente 6, 2
-
-
-
-select * from TCliente
-select * from TRutina
-select * from TMediciones
-
-select * from TExpediente
-
-
+EXEC insertar_expediente 6
+EXEC insertar_expediente 7
+EXEC insertar_expediente 8
+EXEC insertar_expediente 9
+EXEC insertar_expediente 10
 
 ----Insertar rutina----
-
 CREATE OR ALTER PROCEDURE insertar_rutina (@ejercicion VARCHAR(45), @repeticiones INT, @idExpediente INT)
 AS
 BEGIN
@@ -192,27 +184,27 @@ BEGIN
 END
 
 ----Insertar rutina----
-EXEC insertar_rutina 'Sentadillas', 12, 
-EXEC insertar_rutina 'Flexiones de brazos', 15;
-EXEC insertar_rutina 'Plancha abdominal', 30;
-EXEC insertar_rutina 'Dominadas', 8;
-EXEC insertar_rutina 'Curl de bíceps', 12;
-EXEC insertar_rutina 'Fondos en paralelas', 10;
-EXEC insertar_rutina 'Mountain climbers', 20;
-EXEC insertar_rutina 'Elevación de piernas', 15;
-EXEC insertar_rutina 'Press militar', 10;
-EXEC insertar_rutina 'Burpees', 20;
-EXEC insertar_rutina 'Zancadas', 12;
-EXEC insertar_rutina 'Crunches', 25;
-EXEC insertar_rutina 'Remo con barra', 12;
-EXEC insertar_rutina 'Peso muerto', 8;
-EXEC insertar_rutina 'Hip thrust', 12;
-EXEC insertar_rutina 'Prensa de piernas', 15;
-EXEC insertar_rutina 'Elevación lateral de hombros', 12;
-EXEC insertar_rutina 'Sentadilla sumo', 10;
-EXEC insertar_rutina 'Elevación de talones', 20;
-EXEC insertar_rutina 'Plancha lateral', 30;
-EXEC insertar_rutina 'Escalador', 20;
+EXEC insertar_rutina 'Sentadillas', 12, 1
+EXEC insertar_rutina 'Flexiones de brazos', 15, 2
+EXEC insertar_rutina 'Plancha abdominal', 30, 3
+EXEC insertar_rutina 'Dominadas', 8, 4
+EXEC insertar_rutina 'Curl de bíceps', 12, 5
+EXEC insertar_rutina 'Fondos en paralelas', 10, 1
+EXEC insertar_rutina 'Mountain climbers', 20, 2
+EXEC insertar_rutina 'Elevación de piernas', 15, 3
+EXEC insertar_rutina 'Press militar', 10, 4
+EXEC insertar_rutina 'Burpees', 20, 5
+EXEC insertar_rutina 'Zancadas', 12, 1
+EXEC insertar_rutina 'Crunches', 25, 2
+EXEC insertar_rutina 'Remo con barra', 12, 3
+EXEC insertar_rutina 'Peso muerto', 8, 4
+EXEC insertar_rutina 'Hip thrust', 12, 5
+EXEC insertar_rutina 'Prensa de piernas', 15, 1
+EXEC insertar_rutina 'Elevación lateral de hombros', 12, 2
+EXEC insertar_rutina 'Sentadilla sumo', 10, 3
+EXEC insertar_rutina 'Elevación de talones', 20, 4
+EXEC insertar_rutina 'Plancha lateral', 30, 5
+EXEC insertar_rutina 'Escalador', 20, 1
 
 
 
