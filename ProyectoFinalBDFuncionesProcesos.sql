@@ -1,17 +1,17 @@
 USE ProyectoGymnasio
 
 --Calcular IMC de una persona fn_calcular_imc--
-CREATE FUNCTION fn_calcular_imc ( @estatura float, @peso float )
-RETURNS int
+CREATE OR ALTER FUNCTION fn_calcular_imc ( @estatura float, @peso float )
+RETURNS FLOAT
 AS
 BEGIN
     DECLARE @IMC float
-    SET @IMC = @peso /  POWER(@estatura, 2) 
+    SET @IMC = @peso/POWER(@estatura, 2) 
     RETURN @IMC
 END
 
 --Ejecucion fn_calcular_imc--
-SELECT dbo.fn_calcular_imc(5.2,10) AS Resultado
+SELECT dbo.fn_calcular_imc(1.7,70) AS Resultado
 
 --Clasificar IMC--
 CREATE or ALTER FUNCTION fn_clasificar_imc ( @IMC FLOAT )
@@ -183,7 +183,128 @@ END
 ----Mostrar medidas ideales---
 EXEC medidas_ideales 170,'H',20,15,10
 
---
+----Mostrar evolucion---- 
+
+--Esta funcion resuelve el caso en que se inserten las medidas al reves, refiriendose a fechas--
+
+CREATE OR ALTER PROCEDURE evolucion_medidas (@idMedicion1 INT, @idMedicion2 INT)
+AS
+BEGIN
+	DECLARE @idPrmed INT
+	DECLARE @idSegmed INT
+	DECLARE @fecha DATE
+	DECLARE @peso FLOAT 
+	DECLARE @porcentajeGrasa FLOAT 
+	DECLARE @porcentajeGViseral FLOAT
+	DECLARE @IMC FLOAT
+	DECLARE @R1 VARCHAR(45)
+	DECLARE @R2 VARCHAR(45)
+	DECLARE @R3 VARCHAR(45)
+	DECLARE @R4 VARCHAR(45)
+
+	CREATE TABLE TResultados (ID INT IDENTITY (1,1) PRIMARY KEY, peso VARCHAR(45), porcentajeGrasa VARCHAR(45), porcentajeGrasaViseral VARCHAR(45), IMC VARCHAR(45))
+	
+	--Verifica que sean del mismo cliente antes que todo--
+	IF ((SELECT idCliente FROM TMediciones WHERE idMedicion = @idMedicion1) = (SELECT idCliente FROM TMediciones WHERE idMedicion = @idMedicion2))
+		BEGIN
+
+		--Asigna segun antiguedad y resuelve si se insertaron las mediciones al reves--
+		IF ((SELECT fecha FROM TMediciones WHERE idMedicion = @idMedicion1) > (SELECT fecha FROM TMediciones WHERE idMedicion = @idMedicion2))
+			BEGIN
+				SET @idPrmed = @idMedicion2
+				SET @idSegmed = @idMedicion1
+			SET @peso = (SELECT peso FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT peso FROM TMediciones WHERE idMedicion = @idSegmed)
+			SET @porcentajeGrasa = (SELECT porcentajeGrasa FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT porcentajeGrasa FROM TMediciones WHERE idMedicion = @idSegmed)
+			SET @porcentajeGViseral = (SELECT porcentajeGViceral FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT porcentajeGViceral FROM TMediciones WHERE idMedicion = @idSegmed)
+			SET @IMC = (SELECT IMC FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT IMC FROM TMediciones WHERE idMedicion = @idSegmed)
+					IF (@peso < 0)  
+					BEGIN
+						SET @R1 = 'Aumento ' + CAST(ABS(@peso) AS nvarchar)
+					END
+					ELSE IF (@peso > 0)
+					BEGIN
+						SET @R1 = 'Disminuyo ' + CAST(@peso AS nvarchar)
+					END
+					IF (@porcentajeGrasa < 0) 
+					BEGIN
+						SET @R2 = 'Aumento ' + CAST(ABS(@porcentajeGrasa) AS nvarchar)
+					END
+					ELSE IF (@porcentajeGrasa > 0)
+					BEGIN
+						SET @R2 = 'Disminuyo ' + CAST(@porcentajeGrasa AS nvarchar)
+					END
+					IF (@porcentajeGViseral < 0)
+					BEGIN
+						SET @R3 = 'Aumento ' + CAST(ABS(@porcentajeGViseral) AS nvarchar)
+					END
+					ELSE IF (@porcentajeGViseral > 0)
+					BEGIN
+						SET @R3 = 'Disminuyo ' + CAST(@porcentajeGViseral AS nvarchar)
+					END
+										IF (@IMC < 0)
+					BEGIN
+						SET @R4 = 'Aumento ' + CAST(ABS(@IMC) as nvarchar)
+					END
+					ELSE IF (@IMC > 0)
+					BEGIN
+						SET @R4 = 'Disminuyo ' + CAST(@IMC as nvarchar)
+					END
+			INSERT INTO TResultados VALUES(@R1, @R2, @R3, @R4)
+			SELECT*FROM TResultados
+			DROP TABLE TResultados
+			END
+		ELSE
+			BEGIN
+					SET @idPrmed = @idMedicion1
+					SET @idSegmed = @idMedicion2
+			SET @peso = (SELECT peso FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT peso FROM TMediciones WHERE idMedicion = @idSegmed)
+			SET @porcentajeGrasa = (SELECT porcentajeGrasa FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT porcentajeGrasa FROM TMediciones WHERE idMedicion = @idSegmed)
+			SET @porcentajeGViseral = (SELECT porcentajeGViceral FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT porcentajeGViceral FROM TMediciones WHERE idMedicion = @idSegmed)
+			SET @IMC = (SELECT IMC FROM TMediciones WHERE idMedicion = @idPrmed) - (SELECT IMC FROM TMediciones WHERE idMedicion = @idSegmed)
+					IF (@peso < 0)  
+					BEGIN
+						SET @R1 = 'Aumento ' + CAST(ABS(@peso) AS nvarchar)
+					END
+					ELSE IF (@peso > 0)
+					BEGIN
+						SET @R1 = 'Disminuyo ' + CAST(@peso AS nvarchar)
+					END
+					IF (@porcentajeGrasa < 0) 
+					BEGIN
+						SET @R2 = 'Aumento ' + CAST(ABS(@porcentajeGrasa) AS nvarchar)
+					END
+					ELSE IF (@porcentajeGrasa > 0)
+					BEGIN
+						SET @R2 = 'Disminuyo ' + CAST(@porcentajeGrasa AS nvarchar)
+					END
+					IF (@porcentajeGViseral < 0)
+					BEGIN
+						SET @R3 = 'Aumento ' + CAST(ABS(@porcentajeGViseral) AS nvarchar)
+					END
+					ELSE IF (@porcentajeGViseral > 0)
+					BEGIN
+						SET @R3 = 'Disminuyo ' + CAST(@porcentajeGViseral AS nvarchar)
+					END
+					IF (@IMC < 0)
+					BEGIN
+						SET @R4 = 'Aumento ' + CAST(ABS(@IMC) as nvarchar)
+					END
+					ELSE IF (@IMC > 0)
+					BEGIN
+						SET @R4 = 'Disminuyo ' + CAST(@IMC as nvarchar)
+					END
+			INSERT INTO TResultados VALUES(@R1, @R2, @R3, @R4)
+			SELECT*FROM TResultados
+			DROP TABLE TResultados
+			END
+		END
+	ELSE 
+		PRINT 'Las mediciones no son del mismo cliente'
+END
+
+EXEC evolucion_medidas 7,2
+
+SELECT *FROM TMediciones
 
 ------Procedimiento Creacion de Rutina-----
 
