@@ -1,3 +1,5 @@
+USE ProyectoGymnasio
+
 --Calcular IMC de una persona fn_calcular_imc--
 CREATE FUNCTION fn_calcular_imc ( @estatura float, @peso float )
 RETURNS int
@@ -111,13 +113,15 @@ END
 SELECT dbo.fn_cant_proteina('M', 70)
 
 ----Medidas ideales----
-CREATE OR ALTER PROCEDURE obtener_medidas_ideales(@estatura FLOAT, @sexo VARCHAR(1), @imc FLOAT, @grasaCorporal FLOAT, @grasaViseral FLOAT)
+CREATE OR ALTER PROCEDURE medidas_ideales(@estatura FLOAT, @sexo VARCHAR(1), @imc FLOAT, @grasaCorporal FLOAT, @grasaViseral FLOAT)
 AS
 BEGIN
 	---select de la pasada medicion para saber si mejoro---
-	DECLARE @resultadoIMC VARCHAR(15)
+	DECLARE @resultadoIMC VARCHAR(45)
 	DECLARE @resultadoGrasaCorporal VARCHAR(45)
 	DECLARE @resultadoGrasaViseral VARCHAR(45)
+
+	CREATE TABLE TResultados (IMC VARCHAR(45), GrasaCorporal VARCHAR(45), GrasaViseral VARCHAR(45))
 
 	IF (@sexo = 'H')
 		IF (@estatura  >= 160 AND @estatura < 190)
@@ -169,8 +173,17 @@ BEGIN
 				SET @resultadoGrasaViseral = 'Dentro del rango'
 			IF (@grasaViseral > 15)
 				SET @resultadoGrasaViseral = 'Alto'
+
+		INSERT INTO TResultados VALUES(@resultadoIMC, @resultadoGrasaCorporal, @resultadoGrasaViseral)
+		SELECT * FROM TResultados
+		DROP TABLE TResultados
+
 END
 
+----Mostrar medidas ideales---
+EXEC medidas_ideales 170,'H',20,15,10
+
+--
 
 ------Procedimiento Creacion de Rutina-----
 
