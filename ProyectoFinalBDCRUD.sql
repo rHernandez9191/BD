@@ -175,7 +175,6 @@ EXEC insertar_expediente 6, 2
 
 
 
-
 select * from TCliente
 select * from TRutina
 select * from TMediciones
