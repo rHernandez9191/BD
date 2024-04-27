@@ -241,7 +241,7 @@ BEGIN
 					BEGIN
 						SET @R3 = 'Disminuyo ' + CAST(@porcentajeGViseral AS nvarchar)
 					END
-										IF (@IMC < 0)
+					IF (@IMC < 0)
 					BEGIN
 						SET @R4 = 'Aumento ' + CAST(ABS(@IMC) as nvarchar)
 					END
