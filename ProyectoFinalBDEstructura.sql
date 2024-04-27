@@ -100,16 +100,19 @@ CREATE TABLE TCliente(
 CREATE TABLE TRutina(
 			idRutina INT IDENTITY(1,1) PRIMARY KEY,
 			ejercicion varchar(45),
-			repeticiones int )
-
+			repeticiones int,
+			idExpediente int 
+			
+			CONSTRAINT FK_ExpedienteRutina FOREIGN KEY (idExpediente)
+			REFERENCES TExpediente (idExpediente)
+			)
 CREATE TABLE TExpediente(
 			idExpediente INT IDENTITY(1,1) PRIMARY KEY,
 			idCliente INT not null,
 			idMedicion INT NOT NULL,
-			idRutina INT NOT NULL, 
+			 
 
-			CONSTRAINT FK_ExpedienteRutina FOREIGN KEY (idRutina)
-			REFERENCES TRutina (idRutina),
+
 			CONSTRAINT FK_ExpedienteCli FOREIGN KEY (idCliente)
 			REFERENCES TCliente(idCliente),
 			CONSTRAINT FK_ExpedienteMedi FOREIGN KEY (idMedicion)
