@@ -65,7 +65,6 @@ EXEC insertar_gymnasio 'Gimnasio Wellness', '87654321', 'María Martínez';
 EXEC insertar_gymnasio 'GymXtreme', '56781234', 'Carlos Rodríguez';
 EXEC insertar_gymnasio 'Gimnasio PowerFit', '34567890', 'Ana Gómez';
 
-select * from TGymnasio
 --Insertar sede--
 CREATE OR ALTER PROCEDURE insertar_sede (
 	@nomSede VARCHAR(45), @provincia VARCHAR(45), @canton VARCHAR(45), @email VARCHAR(45), @telefono1 VARCHAR(45), @telefono2 VARCHAR(45), @idGymnasio INT )
@@ -93,17 +92,12 @@ BEGIN
 	INSERT INTO TInstructor VALUES(@idPersona, @idPago, @idSede)
 END
 ----Insertar instructor----
-EXEC insertar_instructor 22, 2, 1
-EXEC insertar_instructor 25, 3, 2;
-EXEC insertar_instructor 31, 4, 3;
-EXEC insertar_instructor 38, 5, 4;
-EXEC insertar_instructor 26, 2, 5;
-EXEC insertar_instructor 29, 3, 6;
-EXEC insertar_instructor 35, 4, 7;
-EXEC insertar_instructor 40, 5, 8;
-EXEC insertar_instructor 24, 2, 9;
-EXEC insertar_instructor 37, 3, 10;
-select * from TInstructor
+EXEC insertar_instructor 1, 2, 1
+EXEC insertar_instructor 2, 3, 2;
+EXEC insertar_instructor 3, 4, 3;
+EXEC insertar_instructor 4, 5, 4;
+EXEC insertar_instructor 5, 2, 5;
+
 --Insertar cliente--
 CREATE OR ALTER PROCEDURE insertar_cliente (
 	@idPersona INT, @estatura FLOAT, @sexo VARCHAR(1), @altoRiesgo VARCHAR(2), @idInstructor INT)
@@ -113,17 +107,11 @@ BEGIN
 END
 
 --Insertar cliente--
-EXEC insertar_cliente 21, 1.8, 'M', 'Si', 1
-EXEC insertar_cliente 23, 1.75, 'M', 'No', 2;
-EXEC insertar_cliente 27, 1.65, 'F', 'Si', 3;
-EXEC insertar_cliente 28, 1.70, 'M', 'No', 4;
-EXEC insertar_cliente 30, 1.60, 'F', 'Si', 5;
-EXEC insertar_cliente 32, 1.80, 'M', 'No', 6;
-EXEC insertar_cliente 33, 1.55, 'F', 'Si', 7;
-EXEC insertar_cliente 34, 1.68, 'M', 'No', 8;
-EXEC insertar_cliente 36, 1.72, 'F', 'Si', 9;
-EXEC insertar_cliente 39, 1.77, 'M', 'No', 10;
-EXEC insertar_cliente 41, 1.62, 'F', 'Si', 11;
+EXEC insertar_cliente 6, 1.8, 'M', 'Si', 11
+EXEC insertar_cliente 7, 1.75, 'M', 'No', 12;
+EXEC insertar_cliente 8, 1.65, 'F', 'Si', 13;
+EXEC insertar_cliente 9, 1.70, 'M', 'No', 14;
+EXEC insertar_cliente 10, 1.60, 'F', 'Si', 15;
 
 ----Insertar certificaciones----
 CREATE OR ALTER PROCEDURE insertar_certificaciones (@titulo VARCHAR(45), @idInstructor INT)
@@ -131,17 +119,13 @@ AS
 BEGIN
 	INSERT INTO TCertificaciones VALUES (@titulo, @idInstructor)
 END
-
+SELECT * FROM TInstructor
 ----Insertar certificaciones----
-EXEC insertar_certificaciones 'Entrenador personal', 1
-EXEC insertar_certificaciones 'Entrenador personal', 2;
-EXEC insertar_certificaciones 'Entrenador personal', 4;
-EXEC insertar_certificaciones 'Gerente', 5;
-EXEC insertar_certificaciones 'Cajero', 6;
-EXEC insertar_certificaciones 'Entrenador personal', 7;
-EXEC insertar_certificaciones 'Administrativo', 8;
-EXEC insertar_certificaciones 'Cajero', 9;
-EXEC insertar_certificaciones 'Nutricionista', 10;
+EXEC insertar_certificaciones 'Entrenador personal', 11
+EXEC insertar_certificaciones 'Entrenador personal', 12;
+EXEC insertar_certificaciones 'Entrenador personal', 13;
+EXEC insertar_certificaciones 'Gerente', 14;
+EXEC insertar_certificaciones 'Cajero', 15;
 
 ----Insertar UAdministrativo----
 CREATE OR ALTER PROCEDURE insertar_UAdministrativo(@idPersona INT, @idPago INT)
@@ -178,16 +162,38 @@ EXEC insertar_mediciones '2024-12-19', '13:30:55', 66, 28, 18, 17;
 EXEC insertar_mediciones '2024-12-18', '11:45:10', 70, 25, 15, 20;
 EXEC insertar_mediciones '2024-12-17', '14:00:25', 77, 19, 9, 26;
 
-----Insertar rutina----
-
-CREATE OR ALTER PROCEDURE insertar_rutina (@ejercicion VARCHAR(45), @repeticiones INT)
+----Insertar expediente----
+CREATE OR ALTER PROCEDURE insertar_expediente (@idCliente INT, @idMedicion INT)
 AS
 BEGIN
-	INSERT INTO TRutina VALUES(@ejercicion, @repeticiones)
+	INSERT INTO TExpediente VALUES(@idCliente, @idMedicion)
+END
+
+----Insertar expediente----
+EXEC insertar_expediente 6, 1
+EXEC insertar_expediente 6, 2
+
+
+
+
+select * from TCliente
+select * from TRutina
+select * from TMediciones
+
+select * from TExpediente
+
+
+
+----Insertar rutina----
+
+CREATE OR ALTER PROCEDURE insertar_rutina (@ejercicion VARCHAR(45), @repeticiones INT, @idExpediente INT)
+AS
+BEGIN
+	INSERT INTO TRutina VALUES(@ejercicion, @repeticiones, @idExpediente)
 END
 
 ----Insertar rutina----
-EXEC insertar_rutina 'Sentadillas', 12
+EXEC insertar_rutina 'Sentadillas', 12, 
 EXEC insertar_rutina 'Flexiones de brazos', 15;
 EXEC insertar_rutina 'Plancha abdominal', 30;
 EXEC insertar_rutina 'Dominadas', 8;
@@ -208,17 +214,6 @@ EXEC insertar_rutina 'Sentadilla sumo', 10;
 EXEC insertar_rutina 'Elevación de talones', 20;
 EXEC insertar_rutina 'Plancha lateral', 30;
 EXEC insertar_rutina 'Escalador', 20;
-
-----Insertar expediente----
-CREATE OR ALTER PROCEDURE insertar_expediente (@idCliente INT, @idMedicion INT, @idRutina INT)
-AS
-BEGIN
-	INSERT INTO TExpediente VALUES(@idCliente, @idMedicion, @idRutina)
-END
-
-----Insertar expediente----
-EXEC insertar_expediente 3, 1, 1
-
 
 
 
