@@ -82,10 +82,10 @@ CREATE TABLE TMediciones(
 			porcentajeGrasa float,
 			porcentajeGViceral float,
 			IMC float,
-			idExpediente int
+			idCliente int
 
-			CONSTRAINT FK_ExpedienteMedi FOREIGN KEY (idExpediente)
-			REFERENCES TExpediente(idExpediente)
+			CONSTRAINT FK_ExpedienteMedi FOREIGN KEY (idCliente)
+			REFERENCES TCliente(idCliente)
 			)
 
 CREATE TABLE TCliente(
@@ -114,7 +114,6 @@ CREATE TABLE TRutina(
 CREATE TABLE TExpediente(
 			idExpediente INT IDENTITY(1,1) PRIMARY KEY,
 			idCliente INT not null,
-			idMedicion INT NOT NULL,
 			
 			CONSTRAINT FK_ExpedienteCli FOREIGN KEY (idCliente)
 			REFERENCES TCliente(idCliente),
