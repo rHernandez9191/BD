@@ -116,7 +116,7 @@ CREATE TABLE TExpediente(
 			idCliente INT not null,
 			
 			CONSTRAINT FK_ExpedienteCli FOREIGN KEY (idCliente)
-			REFERENCES TCliente(idCliente),
+			REFERENCES TCliente(idCliente)
  )
 
 ----- INTERMEDIAS
@@ -130,13 +130,14 @@ CREATE TABLE ExpedienteXCliente(
 			CONSTRAINT ClienteExpe FOREIGN KEY (idCliente)
 			REFERENCES TCliente (idCliente) )
 
-CREATE TABLE ExpedienteXMedicion(
-			idExpediente INT IDENTITY(1,1),
+CREATE TABLE ClienteXMedicion(
+			idCliente INT IDENTITY(1,1),
 			idMedicion INT NOT NULL,
 
-			CONSTRAINT PK_ExpedienteXMedicion PRIMARY KEY(idExpediente, idMedicion),
-			CONSTRAINT ExpeMedicion FOREIGN KEY (idExpediente)
-			REFERENCES TExpediente(idExpediente),
+			CONSTRAINT PK_ExpedienteXMedicion PRIMARY KEY(idCliente, idMedicion),
+			CONSTRAINT ExpeMedicion FOREIGN KEY (idCliente)
+			REFERENCES TCliente(idCliente),
+
 			CONSTRAINT MedicionExpe FOREIGN KEY (idMedicion)
 			REFERENCES TMediciones (idMedicion) )
 
@@ -200,15 +201,6 @@ CREATE TABLE PagoXUAdmin(
 			CONSTRAINT FK_PagoXUAdminP FOREIGN KEY (idPago)
 			REFERENCES TPagos (idPago) )
 
-CREATE TABLE ClienteXMedicion(
-			idCliente INT IDENTITY(1,1),
-			idMedicion INT not null,
-
-			CONSTRAINT ClienteXMedicionCM PRIMARY KEY(idCliente, idMedicion),
-			CONSTRAINT ClienteXMedicionC FOREIGN KEY (idCliente)
-			REFERENCES TCliente (idCliente),
-			CONSTRAINT ClienteXMedicionM FOREIGN KEY (idMedicion)
-			REFERENCES TMediciones (idMedicion) )
 
 CREATE TABLE ClienteXInstructor(
 			idCliente INT IDENTITY(1,1),
