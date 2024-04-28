@@ -307,9 +307,21 @@ EXEC evolucion_medidas 7,2
 SELECT *FROM TMediciones
 
 ------Procedimiento Creacion de Rutina-----
-
+CREATE OR ALTER PROCEDURE CrearRutina (@ejercicion VARCHAR(45), @repeticiones INT, @idExpediente INT)
+AS
+BEGIN
+	INSERT INTO TRutina VALUES(@ejercicion, @repeticiones, @idExpediente)
+END
 
 ------Vista de reporte de cliente------
-CREATE OR ALTER VIEW ReporteCliente 
+CREATE OR ALTER VIEW ReporteCliente
+AS 
+SELECT TPersona.nombre, TPersona.fechaNacimiento, TCliente.estatura, TCliente.altoRiesgo, 
+TCliente.sexo, TMediciones.peso, TMediciones.fecha, TMediciones.IMC, TMediciones.porcentajeGrasa, TMediciones.porcentajeGViceral
+FROM TPersona
+INNER JOIN TCliente ON TPersona.idPersona = TPersona.idPersona
+INNER JOIN TMediciones ON TCliente.idCliente = TMediciones.idCliente
+
+SELECT * FROM ReporteCliente
 
 -----Trigger Alto Riesgo-----
