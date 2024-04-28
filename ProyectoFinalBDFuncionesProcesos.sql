@@ -325,3 +325,15 @@ INNER JOIN TMediciones ON TCliente.idCliente = TMediciones.idCliente
 SELECT * FROM ReporteCliente
 
 -----Trigger Alto Riesgo-----
+CREATE OR ALTER TRIGGER AlertaAltoRiesgo 
+ON TMediciones AFTER INSERT
+AS BEGIN 
+	DECLARE @idCliente INT, @IMC FLOAT
+
+SELECT @idCliente = idCliente, @IMC = imc FROM TMediciones
+IF @IMC > 35 
+BEGIN 
+	UPDATE TCliente
+	SET altoRiesgo = 'si' WHERE idCliente = @idCliente
+END
+END
